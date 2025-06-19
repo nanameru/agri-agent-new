@@ -7,16 +7,12 @@ import {
   presentationPreviewTool,
   braveSearchTool,
   geminiImageGenerationTool,
-  geminiVideoGenerationTool,
   grokXSearchTool,
   imagen4GenerationTool,
   v0CodeGenerationTool,
   graphicRecordingTool,
-  minimaxTTSTool,
   claudeAnalysisTool,
   claudeFileTool,
-  claudeAutoEditTool,
-  claudeCodeSDKTool,
   githubListIssuesTool,
   visualSlideEditorTool
 } from '../tools'; // Import all tools
@@ -66,7 +62,7 @@ export function createSlideCreatorAgent(provider: string = 'gemini', modelName: 
 # System Prompt
 
 ## Initial Context and Setup
-You are a powerful universal AI agent named Open-SuperAgent. You have access to various tools that allow you to assist users with a wide range of tasks - not just coding, but any task that your tools enable. You can generate presentations, search for information, perform calculations, generate images and videos, create audio content, automate browsers, and more.
+You are a powerful universal AI agent named Open-SuperAgent. You have access to various tools that allow you to assist users with a wide range of tasks - not just coding, but any task that your tools enable. You can generate presentations, search for information, perform calculations, generate images, create audio content, automate browsers, and more.
 
 Your main goal is to follow the USER's instructions at each message, denoted by the <user_query> tag.
 
@@ -84,22 +80,12 @@ You have access to the following specialized tools:
   - **generate-tests**: Create unit tests for code. Example: {"operation": "generate-tests", "code": "your code", "testFramework": "jest"}
   - **generate-docs**: Generate documentation for code. Example: {"operation": "generate-docs", "code": "your code", "format": "markdown"}
 - \`claude-file\`: Read, write, append, or delete files in the project. Operations: "read", "write", "append", "delete". Example: {"operation": "read", "filePath": "src/index.ts"}
-- \`claude-auto-edit\`: Combines Claude analysis with file editing. Automatically analyzes and modifies files. Operations:
-  - **analyze-and-fix**: Analyze code and apply fixes. Example: {"operation": "analyze-and-fix", "filePath": "src/component.ts"}
-  - **refactor-and-apply**: Refactor code and save changes. Example: {"operation": "refactor-and-apply", "filePath": "src/utils.js", "refactorType": "optimize"}
-  - **generate-and-save**: Generate new code and save to file. Example: {"operation": "generate-and-save", "filePath": "src/newFeature.ts", "specification": "create a user authentication module"}
-- \`claude-project-analyzer\`: Analyze project directory structure with Claude insights. Operations:
-  - **structure**: Scan directory structure only. Example: {"operation": "structure", "maxDepth": 3}
-  - **summary**: Generate project statistics and overview. Example: {"operation": "summary", "includeHidden": false}
-  - **analyze**: Full analysis with Claude insights on architecture, patterns, and recommendations. Example: {"operation": "analyze", "analysisType": "comprehensive"}
 - \`github-list-issues\`: Lists issues from a GitHub repository.
 
 - \`geminiImageGenerationTool\`: Generates images based on text prompts
-- \`geminiVideoGenerationTool\`: Generates videos based on text prompts or images
 - \`imagen4GenerationTool\`: Generates high-quality images with enhanced detail using Google's Imagen 4 model
 - \`v0CodeGenerationTool\`: Generates code for web applications using v0's AI model
 - \`graphicRecordingTool\`: Creates timeline-based graphic recordings (grafreco) with visual elements
-- \`minimaxTTSTool\`: Generates high-quality speech audio using MiniMax T2A Large v2 API with 100+ voice options, emotion control, and detailed parameter adjustment
 - Browser automation tools (atomic operations):
   - \`browserSessionTool\`: Creates a new browser session with live view URL (supports metadata, viewport presets)
   - \`browserGotoTool\`: Navigates to a specific URL
@@ -169,7 +155,7 @@ The browser tools (\`browserGotoTool\`, \`browserActTool\`, etc.) do **not** ret
 When performing browser automation, you **MUST** follow a strict context management rule to prevent token overflow.
 
 -   **Focus on the Latest State**: When deciding your next browser action, you **MUST ONLY** use the output from the **most recent** browser tool call. The \`accessibilityTree\` from the latest tool call represents the complete current state of the page.
--   **Ignore Past States**: You **MUST IGNORE** all \`accessibilityTree\` outputs from previous steps in the conversation. They are outdated and will cause context overflow. The latest tree is your single source of truth.
+-   **Ignore Past States**: You **MUST IGIGNORE** all \`accessibilityTree\` outputs from previous steps in the conversation. They are outdated and will cause context overflow. The latest tree is your single source of truth.
 
 1.  **Start Session (\`browserSessionTool\`)**: **Always** begin by creating a new browser session. This will provide the \`sessionId\` required by all other browser tools.
 2.  **Navigate (\`browserGotoTool\`)**: Use the session to navigate to a specific URL. This gives you the initial page context.
@@ -327,15 +313,11 @@ Remember that you are a general-purpose assistant, not limited to coding tasks. 
       grokXSearchTool, // Register the Grok X search tool
       claudeAnalysisTool, // Register the Claude analysis tool
       claudeFileTool, // Register the file editor tool
-      claudeAutoEditTool, // Register the Claude auto edit tool
-      claudeCodeSDKTool, // Register the Claude Code SDK tool
       githubListIssuesTool, // Register the GitHub list issues tool
       geminiImageGenerationTool, // Register the image generation tool
-      geminiVideoGenerationTool, // Register the video generation tool
       imagen4GenerationTool, // Register the Imagen 4 generation tool
       v0CodeGenerationTool, // Register the v0 code generation tool
       graphicRecordingTool, // Register the graphic recording tool
-      minimaxTTSTool, // Register the MiniMax TTS tool
       // Browser automation tools (atomic operations)
       browserSessionTool, // Create browser session with metadata/viewport support
       browserGotoTool, // Navigate to URL

@@ -106,12 +106,10 @@ import { htmlSlideTool } from './htmlSlideTool';
 import { braveSearchTool } from './braveSearchTool';
 import { geminiImageGenerationTool } from './geminiImageGenerationTool';
 import { presentationPreviewTool } from './presentationPreviewTool';
-import { geminiVideoGenerationTool } from './geminiVideoGenerationTool';
 import { grokXSearchTool } from './grokXSearchTool';
 import { imagen4GenerationTool } from './imagen4GenerationTool';
 import { v0CodeGenerationTool } from './v0CodeGenerationTool';
 import { graphicRecordingTool } from './graphicRecordingTool';
-import { minimaxTTSTool } from './minimaxTTSTool';
 import { browserSessionTool } from './browserSessionTool';
 import { browserGotoTool } from './browserGotoTool';
 import { browserActTool } from './browserActTool';
@@ -123,8 +121,6 @@ import { browserCloseTool } from './browserCloseTool';
 import { browserCaptchaDetectTool } from './browserCaptchaDetectTool';
 import { claudeAnalysisTool } from './claudeAnalysisTool';
 import { claudeFileTool } from './claudeFileTool';
-import { claudeAutoEditTool } from './claudeAutoEditTool';
-import { claudeCodeSDKTool } from './claudeCodeSDKTool';
 import { githubListIssuesTool } from './githubListIssuesTool';
 import { fileAppendTool } from './fileAppendTool';
 // Enhanced browser tools
@@ -133,7 +129,6 @@ import { browserContextUseTool } from './browserContextUseTool';
 import { browserSessionQueryTool } from './browserSessionQueryTool';
 import { browserDownloadTool } from './browserDownloadTool';
 import { browserUploadTool } from './browserUploadTool';
-// Enhanced research tools (removed for build stability)
 // Visual editing tools
 import { visualSlideEditorTool } from './visualSlideEditorTool';
 
@@ -144,12 +139,10 @@ export const allTools = [
   braveSearchTool,
   geminiImageGenerationTool,
   presentationPreviewTool,
-  geminiVideoGenerationTool,
   grokXSearchTool,
   imagen4GenerationTool,
   v0CodeGenerationTool,
   graphicRecordingTool,
-  minimaxTTSTool,
   browserSessionTool,
   browserGotoTool,
   browserActTool,
@@ -167,11 +160,8 @@ export const allTools = [
   browserUploadTool,
   claudeAnalysisTool,
   claudeFileTool,
-  claudeAutoEditTool,
-  claudeCodeSDKTool,
   githubListIssuesTool,
   fileAppendTool,
-  // Enhanced research tools (removed for build stability)
   // Visual editing tools
   visualSlideEditorTool,
 ];
@@ -185,12 +175,10 @@ export {
   braveSearchTool,
   geminiImageGenerationTool,
   presentationPreviewTool,
-  geminiVideoGenerationTool,
   grokXSearchTool,
   imagen4GenerationTool,
   v0CodeGenerationTool,
   graphicRecordingTool,
-  minimaxTTSTool,
   browserSessionTool,
   browserGotoTool,
   browserActTool,
@@ -208,11 +196,8 @@ export {
   browserUploadTool,
   claudeAnalysisTool,
   claudeFileTool,
-  claudeAutoEditTool,
-  claudeCodeSDKTool,
   githubListIssuesTool,
   fileAppendTool,
-  // Enhanced research tools (removed for build stability)
   // Visual editing tools
   visualSlideEditorTool,
 };

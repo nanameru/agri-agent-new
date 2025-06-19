@@ -23,7 +23,7 @@ export function Sidebar({ className }: SidebarProps) {
       <TooltipProvider>
         <div className={cn('h-full bg-black border-r flex flex-col text-white', isCollapsed ? 'w-16' : 'w-64')}>
           <div className="flex items-center justify-between p-2">
-            {!isCollapsed && <span className="text-lg font-semibold">Mastra</span>}
+            {!isCollapsed && <span className="text-lg font-semibold">AGRI-Agent</span>}
             <button onClick={toggleSidebar} className="p-2 rounded-lg hover:bg-gray-800">
               {isCollapsed ? <ChevronRight /> : <ChevronLeft />}
             </button>
