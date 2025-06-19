@@ -10,7 +10,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-type ModelProvider = 'openai' | 'claude' | 'gemini';
+type ModelProvider = 'openai' | 'claude' | 'gemini' | 'bedrock';
 
 interface Model {
   id: string;
@@ -20,15 +20,7 @@ interface Model {
 }
 
 const models: Model[] = [
-  { id: 'gpt-4.1', provider: 'openai', name: 'gpt-4.1', displayName: 'GPT-4.1' },
-  { id: 'o3-2025-04-16', provider: 'openai', name: 'o3-2025-04-16', displayName: 'o3' },
-  { id: 'o3-pro-2025-06-10', provider: 'openai', name: 'o3-pro-2025-06-10', displayName: 'o3 Pro' },
-  { id: 'o4-mini-2025-04-16', provider: 'openai', name: 'o4-mini-2025-04-16', displayName: 'o4-mini' },
-  { id: 'claude-opus-4-20250514', provider: 'claude', name: 'claude-opus-4-20250514', displayName: 'Claude Opus 4' },
-  { id: 'claude-sonnet-4-20250514', provider: 'claude', name: 'claude-sonnet-4-20250514', displayName: 'Claude Sonnet 4' },
-  { id: 'gemini-2.5-flash', provider: 'gemini', name: 'gemini-2.5-flash', displayName: 'Gemini 2.5 Flash' },
-  { id: 'gemini-2.5-flash-lite', provider: 'gemini', name: 'gemini-2.5-flash-lite-preview-06-17', displayName: 'Gemini 2.5 Flash Lite' },
-  { id: 'gemini-2.5-pro', provider: 'gemini', name: 'gemini-2.5-pro', displayName: 'Gemini 2.5 Pro' },
+  { id: 'claude-opus-4-20250514', provider: 'bedrock', name: 'claude-opus-4-20250514', displayName: 'Amazon Bedrock' },
 ];
 
 const providerConfig = {
@@ -47,12 +39,17 @@ const providerConfig = {
     color: 'text-blue-700',
     badgeColor: 'bg-blue-100 text-blue-800 border-blue-200'
   },
+  bedrock: { 
+    label: 'Bedrock', 
+    color: 'text-yellow-700',
+    badgeColor: 'bg-yellow-100 text-yellow-800 border-yellow-200'
+  },
 };
 
 export const ModelSelector = () => {
   const { currentModel, setCurrentModel } = useModel();
 
-  const selectedModel = models.find(m => m.name === currentModel.modelName) || models[5];
+  const selectedModel = models.find(m => m.name === currentModel.modelName) || models[0];
 
   const handleModelChange = async (modelId: string) => {
     const model = models.find(m => m.id === modelId);
