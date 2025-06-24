@@ -28,6 +28,7 @@ import {
   Terminal,
   FileCode,
   Music,
+  Search,
   Maximize,
   LogOut,
   Shrink
