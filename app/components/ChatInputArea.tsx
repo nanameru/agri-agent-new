@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { ArrowUp, Mic, MicOff, ChevronDown, Search } from 'lucide-react';
+import { ArrowUp, Mic, MicOff, ChevronDown, Search, Sun, Droplets, Wheat, TrendingUp, Calendar, CloudRain } from 'lucide-react';
 import {
   Popover,
   PopoverContent,
@@ -40,6 +40,34 @@ interface ToolOption {
   icon: React.ReactNode;
   description: string;
 }
+
+// 農業クイックアクション
+const quickActions = [
+  {
+    id: 'weather',
+    label: '天気予報',
+    icon: <Sun className="h-4 w-4" />,
+    prompt: '今日の天気予報と農作業への影響を教えてください'
+  },
+  {
+    id: 'irrigation',
+    label: '灌水管理',
+    icon: <Droplets className="h-4 w-4" />,
+    prompt: '現在の土壌水分と灌水スケジュールを確認してください'
+  },
+  {
+    id: 'crop-status',
+    label: '作物状況',
+    icon: <Wheat className="h-4 w-4" />,
+    prompt: '作物の成長状況と病害虫の確認をお願いします'
+  },
+  {
+    id: 'harvest',
+    label: '収穫予測',
+    icon: <TrendingUp className="h-4 w-4" />,
+    prompt: '収穫時期の予測と準備すべき作業を教えてください'
+  }
+];
 
 const toolOptions: ToolOption[] = [
   {
@@ -162,11 +190,37 @@ export const ChatInputArea = ({
     }
   };
 
+  // クイックアクション実行
+  const handleQuickAction = (prompt: string) => {
+    // 入力フィールドにプロンプトを設定
+    const syntheticEvent = {
+      target: { value: prompt }
+    } as React.ChangeEvent<HTMLInputElement>;
+    handleInputChange(syntheticEvent);
+  };
+
   return (
-    <div className="bg-white/80 backdrop-blur-md">
+    <div className="bg-background/95 backdrop-blur-md border-t border-border">
       <div className="safe-areas">
+        {/* 農業クイックアクション */}
+        <div className="max-w-4xl mx-auto px-2 md:px-4 pt-3 pb-2">
+          <div className="flex gap-2 overflow-x-auto scrollbar-hide">
+            {quickActions.map((action) => (
+              <button
+                key={action.id}
+                onClick={() => handleQuickAction(action.prompt)}
+                className="agri-quick-action flex-shrink-0"
+                disabled={isLoading}
+              >
+                {action.icon}
+                <span>{action.label}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+
         <form onSubmit={handleFormSubmit} className="max-w-4xl mx-auto p-2 md:p-4">
-          <div className="relative flex items-center bg-gray-100 rounded-2xl md:rounded-3xl border border-gray-200 focus-within:ring-1 focus-within:ring-gray-300 focus-within:border-gray-300 transition-all shadow-sm">
+          <div className="relative flex items-center agri-input-container bg-card rounded-2xl md:rounded-3xl border-2 border-border focus-within:border-primary transition-all shadow-sm">
             {/* ツール選択ドロップダウン - 非表示 */}
             {/* <Popover open={open} onOpenChange={setOpen}>
               <PopoverTrigger asChild>
@@ -238,9 +292,9 @@ export const ChatInputArea = ({
                     : "Deep Researchで詳細調査します..." 
                   : selectedTool 
                     ? `${toolOptions.find(opt => opt.value === selectedTool)?.label}について質問してください` 
-                    : "質問してみましょう"
+                    : "農業に関してお聞かせください..."
               }
-              className="flex-1 p-3 pl-4 pr-24 bg-transparent text-gray-800 placeholder-gray-500 focus:outline-none text-base"
+              className="flex-1 p-4 pl-4 pr-24 bg-transparent text-foreground placeholder-muted-foreground focus:outline-none text-base"
               disabled={isLoading}
             />
             <div className="absolute right-2 flex items-center gap-1">
@@ -265,7 +319,7 @@ export const ChatInputArea = ({
               <button 
                 type="submit" 
                 disabled={isLoading || !input.trim()} 
-                className="p-2.5 md:p-2 text-white bg-black rounded-full hover:bg-gray-800 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
+                className="p-3 bg-primary text-primary-foreground rounded-full hover:bg-secondary disabled:bg-muted disabled:cursor-not-allowed transition-all duration-200 hover:shadow-lg hover:scale-105"
               >
                 <ArrowUp className="h-5 w-5" />
               </button>

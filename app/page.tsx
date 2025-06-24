@@ -13,7 +13,7 @@ import { Message } from 'ai';
 import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar';
 import { useDeepResearch } from './hooks/useDeepResearch';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
-import { Sparkles, Brain, Bot, BotMessageSquare } from 'lucide-react';
+import { Sparkles, Brain, Bot, BotMessageSquare, Wheat, Sprout } from 'lucide-react';
 import { ModelProvider, useModel } from './components/ModelContext';
 import { useIsMobile } from "@/hooks/use-mobile"
 import { Sheet, SheetContent } from "@/components/ui/sheet"
@@ -582,7 +582,7 @@ export default function AppPage() {
         <MainHeader onMenuClick={() => setIsMobileMenuOpen(true)} />
         <div className="flex-1 flex flex-col md:flex-row overflow-hidden">
           {/* チャットエリア - 動的幅 */}
-          <main className={`${showBrowserPanel ? 'w-full md:w-1/2 border-b md:border-b-0 md:border-r' : 'w-full'} flex flex-col overflow-hidden bg-white border-gray-200 transition-all duration-300`}>
+          <main className={`${showBrowserPanel ? 'w-full md:w-1/2 border-b md:border-b-0 md:border-r' : 'w-full'} flex flex-col overflow-hidden bg-background border-border transition-all duration-300`}>
             <div className="w-full flex-1 flex flex-col px-6 py-6 overflow-y-auto">
               {/* スライドツールがアクティブな場合に表示 */}
               {slideToolState.isActive && (
@@ -618,13 +618,29 @@ export default function AppPage() {
                 <div className="space-y-0 pb-4">
                   {combinedMessages.length === 0 && !isLoading && !error && (
                     <div className="flex flex-col items-center justify-center">
-                      <div className="p-6 bg-white rounded-full shadow-lg border border-gray-200">
-                        <BotMessageSquare size={40} className="text-primary" />
+                      <div className="p-8 bg-primary/5 rounded-full shadow-lg border-2 border-primary/10 relative">
+                        <Wheat size={48} className="text-primary" />
+                        <Sprout size={24} className="text-secondary absolute -top-2 -right-2" />
                       </div>
-                      <h1 className="text-3xl font-normal text-gray-800">AGRI-Agent</h1>
-                      <p className="text-muted-foreground mt-2">
-                        あなたのタスクを自動化するAIアシスタント
+                      <h1 className="text-4xl font-bold text-primary mt-4">🌾 AGRI-Agent</h1>
+                      <p className="text-muted-foreground mt-3 text-center max-w-md">
+                        農業の専門知識とAI技術を融合した<br />
+                        あなたの農業パートナー
                       </p>
+                      <div className="flex gap-2 mt-4 text-sm text-muted-foreground">
+                        <span className="flex items-center gap-1">
+                          <span className="w-2 h-2 bg-accent rounded-full"></span>
+                          作物管理
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <span className="w-2 h-2 bg-secondary rounded-full"></span>
+                          気象分析
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <span className="w-2 h-2 bg-primary rounded-full"></span>
+                          収穫予測
+                        </span>
+                      </div>
                     </div>
                   )}
                   

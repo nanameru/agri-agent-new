@@ -10,9 +10,7 @@ import {
   geminiImageGenerationTool,
   grokXSearchTool,
   imagen4GenerationTool,
-  v0CodeGenerationTool,
   graphicRecordingTool,
-  githubListIssuesTool,
   visualSlideEditorTool
 } from '../tools'; // Import all tools
 import { browserSessionTool } from '../tools/browserSessionTool';
@@ -153,10 +151,8 @@ export function createSlideCreatorAgent(provider: string = 'gemini', modelName: 
       presentationPreviewTool, // Register the preview tool with the agent
       braveSearchTool, // Register the search tool
       grokXSearchTool, // Register the Grok X search tool
-      githubListIssuesTool, // Register the GitHub list issues tool
       geminiImageGenerationTool, // Register the image generation tool
       imagen4GenerationTool, // Register the Imagen 4 generation tool
-      v0CodeGenerationTool, // Register the v0 code generation tool
       graphicRecordingTool, // Register the graphic recording tool
       // Browser automation tools (atomic operations)
       browserSessionTool, // Create browser session with metadata/viewport support

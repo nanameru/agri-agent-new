@@ -1,15 +1,11 @@
 'use client';
 
 import React from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Separator } from '@/components/ui/separator';
 import { AppSidebar } from '@/components/app-sidebar';
 import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar';
 import { 
-  Search, 
   Calculator, 
   Image, 
   Video, 
@@ -24,7 +20,6 @@ import {
   Brain,
   Layers,
   Grid3X3,
-  X,
   Github,
   MousePointer,
   Hand,
@@ -37,14 +32,6 @@ import {
   LogOut,
   Shrink
 } from 'lucide-react';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
 
 // ツールアイコンのマッピング
 const toolIconMap: Record<string, any> = {
@@ -97,15 +84,13 @@ const toolCategoryMap: Record<string, string> = {
   browserWaitTool: 'ブラウザ操作',
   browserCloseTool: 'ブラウザ操作',
   browserCaptchaDetectTool: 'ブラウザ操作',
+  browserContextCreateTool: 'ブラウザ操作',
+  browserSessionQueryTool: 'ブラウザ操作',
+  browserDownloadTool: 'ブラウザ操作',
+  browserUploadTool: 'ブラウザ操作',
   weatherTool: '情報取得',
-  claudeIssueTool: 'Claude Code',
-  claudeAnalysisTool: 'Claude Code',
-  claudeFileTool: 'Claude Code',
   fileAppendTool: 'ファイル操作',
-  websiteAnalysisTool: '情報検索',
-  sourceValidationTool: '情報検索',
-  citationExtractionTool: '情報検索',
-  contentSynthesisTool: '情報分析',
+  visualSlideEditorTool: 'デザイン・視覚化',
 };
 
 // ツール説明のマッピング
@@ -172,6 +157,7 @@ const toolFeaturesMap: Record<string, string[]> = {
 
 // 利用可能なすべてのツール名のリスト
 const agentToolNames = [
+  'weatherTool',
   'htmlSlideTool',
   'presentationPreviewTool',
   'braveSearchTool',
@@ -182,15 +168,7 @@ const agentToolNames = [
   'graphicRecordingTool',
   'githubListIssuesTool',
   'browserCaptchaDetectTool',
-  'weatherTool',
-  'claudeIssueTool',
-  'claudeAnalysisTool',
-  'claudeFileTool',
   'fileAppendTool',
-  'websiteAnalysisTool',
-  'sourceValidationTool',
-  'citationExtractionTool',
-  'contentSynthesisTool',
   'browserSessionTool',
   'browserGotoTool',
   'browserObserveTool',
@@ -199,6 +177,11 @@ const agentToolNames = [
   'browserScreenshotTool',
   'browserWaitTool',
   'browserCloseTool',
+  'browserContextCreateTool',
+  'browserSessionQueryTool',
+  'browserDownloadTool',
+  'browserUploadTool',
+  'visualSlideEditorTool',
 ];
 
 // slideCreatorAgentからツール情報を動的に取得
@@ -242,46 +225,18 @@ function getToolDisplayName(toolName: string): string {
     browserWaitTool: 'ブラウザ 待機',
     browserCloseTool: 'ブラウザセッション終了',
     browserCaptchaDetectTool: 'CAPTCHA検出・解決',
+    browserContextCreateTool: 'ブラウザコンテキスト作成',
+    browserSessionQueryTool: 'ブラウザセッション照会',
+    browserDownloadTool: 'ブラウザ ダウンロード',
+    browserUploadTool: 'ブラウザ アップロード',
     weatherTool: '天気情報取得',
-    claudeIssueTool: 'Claude Issue分析',
-    claudeAnalysisTool: 'Claude コード分析',
-    claudeFileTool: 'Claude ファイル操作',
     fileAppendTool: 'ファイル追記',
-    websiteAnalysisTool: 'ウェブサイト分析',
-    sourceValidationTool: '情報源検証',
-    citationExtractionTool: '引用抽出',
-    contentSynthesisTool: 'コンテンツ統合',
+    visualSlideEditorTool: 'ビジュアルスライドエディタ',
   };
   
   return displayNames[toolName] || toolName;
 }
 
-// 検索機能
-function searchTools(tools: any[], searchQuery: string) {
-  if (!searchQuery.trim()) {
-    return tools;
-  }
-  
-  const query = searchQuery.toLowerCase();
-  
-  return tools.filter(tool => {
-    // ツール名で検索
-    const nameMatch = tool.name.toLowerCase().includes(query);
-    
-    // 説明で検索
-    const descriptionMatch = tool.description.toLowerCase().includes(query);
-    
-    // カテゴリで検索
-    const categoryMatch = tool.category.toLowerCase().includes(query);
-    
-    // 機能で検索
-    const featuresMatch = tool.features.some((feature: string) => 
-      feature.toLowerCase().includes(query)
-    );
-    
-    return nameMatch || descriptionMatch || categoryMatch || featuresMatch;
-  });
-}
 
 interface ToolCardProps {
   tool: {
@@ -298,74 +253,83 @@ function ToolCard({ tool }: ToolCardProps) {
   const ToolIcon = tool.icon;
 
   return (
-    <Dialog>
-      <Card className="flex flex-col h-full transition-all duration-300 ease-in-out hover:shadow-md">
-        <CardHeader className="flex flex-row items-center gap-4 pb-4">
-          <div className="p-2 bg-muted rounded-lg border">
-            <ToolIcon className="h-5 w-5 text-foreground" />
-          </div>
-          <CardTitle className="text-base font-semibold leading-tight">{tool.name}</CardTitle>
-        </CardHeader>
-        <CardContent className="pt-0 pb-4 flex-grow">
-          <Badge variant="outline">{tool.category}</Badge>
-        </CardContent>
-        <CardFooter>
-          <DialogTrigger asChild>
-            <Button variant="secondary" size="sm" className="w-full">
-              詳細を確認
-            </Button>
-          </DialogTrigger>
-        </CardFooter>
-      </Card>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle className="flex items-center gap-3">
-            <div className="p-2 bg-muted rounded-lg border">
-              <ToolIcon className="h-5 w-5 text-foreground" />
-            </div>
-            {tool.name}
-          </DialogTitle>
-          <DialogDescription>
-            {tool.description}
-          </DialogDescription>
-        </DialogHeader>
-        <div className="py-4">
-            <h4 className="text-sm font-semibold uppercase text-muted-foreground mb-3">主な機能</h4>
-            <div className="flex flex-wrap gap-2">
-              {tool.features.map(feature => (
-                <Badge key={feature} variant="secondary">{feature}</Badge>
-              ))}
-            </div>
+    <Card className="flex flex-col h-full transition-all duration-300 ease-in-out hover:shadow-md">
+      <CardHeader className="flex flex-row items-center gap-4 pb-4">
+        <div className="p-2 bg-muted rounded-lg border">
+          <ToolIcon className="h-5 w-5 text-foreground" />
         </div>
-      </DialogContent>
-    </Dialog>
+        <CardTitle className="text-base font-semibold leading-tight">{tool.name}</CardTitle>
+      </CardHeader>
+      <CardContent className="pt-0 pb-4 flex-grow">
+        <Badge variant="outline">{tool.category}</Badge>
+      </CardContent>
+    </Card>
   );
 }
+
+interface CategoryCardProps {
+  category: {
+    name: string;
+    count: number;
+    icon: any;
+  };
+  onClick: () => void;
+  isSelected: boolean;
+}
+
+function CategoryCard({ category, onClick, isSelected }: CategoryCardProps) {
+  const CategoryIcon = category.icon;
+
+  return (
+    <Card 
+      className={`cursor-pointer transition-all duration-300 ease-in-out hover:shadow-md ${
+        isSelected ? 'ring-2 ring-primary' : ''
+      }`}
+      onClick={onClick}
+    >
+      <CardHeader className="flex flex-row items-center gap-4 pb-4">
+        <div className="p-3 bg-muted rounded-lg border">
+          <CategoryIcon className="h-6 w-6 text-foreground" />
+        </div>
+        <div>
+          <CardTitle className="text-lg font-semibold">{category.name}</CardTitle>
+          <CardDescription>{category.count}個のツール</CardDescription>
+        </div>
+      </CardHeader>
+    </Card>
+  );
+}
+
+// カテゴリアイコンのマッピング
+const categoryIconMap: Record<string, any> = {
+  'すべて': Grid3X3,
+  'プレゼンテーション': Presentation,
+  '情報検索': Search,
+  '画像生成': Image,
+  'コード生成': Code,
+  'デザイン・視覚化': Layers,
+  'GitHub連携': Github,
+  'ブラウザ操作': Chrome,
+  '情報取得': Brain,
+  'Claude Code': Bot,
+  'ファイル操作': FileText,
+  '情報分析': Sparkles,
+  'その他': Settings
+};
 
 export default function ToolsPage() {
   // 動的にツールデータを取得
   const toolsData = React.useMemo(() => getToolsFromAgent(), []);
   
-  // 検索クエリの状態管理
-  const [searchQuery, setSearchQuery] = React.useState('');
   const [selectedCategory, setSelectedCategory] = React.useState('すべて');
   
-  // 検索とカテゴリフィルターを適用
+  // カテゴリでフィルターを適用
   const filteredTools = React.useMemo(() => {
-    let filtered = toolsData;
-    
-    // 検索フィルターを適用
-    if (searchQuery.trim()) {
-      filtered = searchTools(filtered, searchQuery);
+    if (selectedCategory === 'すべて') {
+      return toolsData;
     }
-    
-    // カテゴリフィルターを適用
-    if (selectedCategory !== 'すべて') {
-      filtered = filtered.filter(tool => tool.category === selectedCategory);
-    }
-    
-    return filtered;
-  }, [toolsData, searchQuery, selectedCategory]);
+    return toolsData.filter(tool => tool.category === selectedCategory);
+  }, [toolsData, selectedCategory]);
   
   const categories = React.useMemo(() => {
     const categoryCount: Record<string, number> = {};
@@ -374,15 +338,14 @@ export default function ToolsPage() {
     });
     
     return [
-      { name: 'すべて', count: toolsData.length },
-      ...Object.entries(categoryCount).map(([name, count]) => ({ name, count }))
+      { name: 'すべて', count: toolsData.length, icon: categoryIconMap['すべて'] },
+      ...Object.entries(categoryCount).map(([name, count]) => ({ 
+        name, 
+        count, 
+        icon: categoryIconMap[name] || categoryIconMap['その他']
+      }))
     ];
   }, [toolsData]);
-
-  // 検索クリア機能
-  const clearSearch = () => {
-    setSearchQuery('');
-  };
 
   return (
     <SidebarProvider>
@@ -390,74 +353,40 @@ export default function ToolsPage() {
       <SidebarInset>
         <div className="min-h-screen bg-background">
           <div className="container mx-auto px-4 py-8 max-w-7xl">
-            {/* 検索セクション */}
-            <Card className="mb-8">
-              <CardHeader>
-                <CardTitle className="text-lg flex items-center gap-2">
-                  <Search className="h-5 w-5" />
-                  ツール検索
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="relative">
-                  <Input 
-                    type="search" 
-                    placeholder="ツール名、機能、カテゴリなどで検索..." 
-                    className="w-full pr-10"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                  />
-                  {searchQuery && (
-                    <Button 
-                      variant="ghost" 
-                      size="icon" 
-                      className="absolute right-1 top-1/2 -translate-y-1/2 h-8 w-8"
-                      onClick={clearSearch}
-                    >
-                      <X className="h-4 w-4" />
-                    </Button>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
+            {/* ヘッダー */}
+            <div className="mb-8">
+              <h1 className="text-3xl font-bold mb-2">使えるツール一覧</h1>
+              <p className="text-muted-foreground">AGRI-Agentが使用できるツールのカテゴリ一覧です。</p>
+            </div>
 
-            {/* カテゴリフィルターとツール一覧 */}
-            <div className="grid grid-cols-12 gap-8">
-              {/* カテゴリサイドバー */}
-              <div className="col-span-12 md:col-span-3 lg:col-span-2">
-                <h3 className="text-base font-semibold mb-4">カテゴリ</h3>
-                <div className="space-y-1">
-                  {categories.map(category => (
-                    <Button 
-                      key={category.name}
-                      variant={selectedCategory === category.name ? 'secondary' : 'ghost'}
-                      className="w-full justify-start"
-                      onClick={() => setSelectedCategory(category.name)}
-                    >
-                      <span className="flex-grow text-left">{category.name}</span>
-                      <Badge variant={selectedCategory === category.name ? 'default' : 'outline'} className="rounded-full">
-                        {category.count}
-                      </Badge>
-                    </Button>
+            {/* カテゴリカード一覧 */}
+            <div className="mb-8">
+              <h2 className="text-xl font-semibold mb-4">カテゴリから選択</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                {categories.map(category => (
+                  <CategoryCard 
+                    key={category.name}
+                    category={category}
+                    onClick={() => setSelectedCategory(category.name)}
+                    isSelected={selectedCategory === category.name}
+                  />
+                ))}
+              </div>
+            </div>
+
+            {/* 選択されたカテゴリのツール一覧 */}
+            {selectedCategory && (
+              <div>
+                <h2 className="text-xl font-semibold mb-4">
+                  {selectedCategory === 'すべて' ? '全ツール' : `${selectedCategory}のツール`}
+                </h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                  {filteredTools.map(tool => (
+                    <ToolCard key={tool.id} tool={tool} />
                   ))}
                 </div>
               </div>
-
-              {/* ツール一覧 */}
-              <div className="col-span-12 md:col-span-9 lg:col-span-10">
-                {filteredTools.length > 0 ? (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                    {filteredTools.map(tool => (
-                      <ToolCard key={tool.id} tool={tool} />
-                    ))}
-                  </div>
-                ) : (
-                  <div className="text-center py-16">
-                    <p className="text-muted-foreground">一致するツールが見つかりませんでした。</p>
-                  </div>
-                )}
-              </div>
-            </div>
+            )}
           </div>
         </div>
       </SidebarInset>

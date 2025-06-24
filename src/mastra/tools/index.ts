@@ -108,7 +108,6 @@ import { geminiImageGenerationTool } from './geminiImageGenerationTool';
 import { presentationPreviewTool } from './presentationPreviewTool';
 import { grokXSearchTool } from './grokXSearchTool';
 import { imagen4GenerationTool } from './imagen4GenerationTool';
-import { v0CodeGenerationTool } from './v0CodeGenerationTool';
 import { graphicRecordingTool } from './graphicRecordingTool';
 import { browserSessionTool } from './browserSessionTool';
 import { browserGotoTool } from './browserGotoTool';
@@ -119,8 +118,6 @@ import { browserWaitTool } from './browserWaitTool';
 import { browserScreenshotTool } from './browserScreenshotTool';
 import { browserCloseTool } from './browserCloseTool';
 import { browserCaptchaDetectTool } from './browserCaptchaDetectTool';
-import { githubListIssuesTool } from './githubListIssuesTool';
-import { fileAppendTool } from './fileAppendTool';
 // Enhanced browser tools
 import { browserContextCreateTool } from './browserContextCreateTool';
 import { browserContextUseTool } from './browserContextUseTool';
@@ -139,7 +136,6 @@ export const allTools = [
   presentationPreviewTool,
   grokXSearchTool,
   imagen4GenerationTool,
-  v0CodeGenerationTool,
   graphicRecordingTool,
   browserSessionTool,
   browserGotoTool,
@@ -156,8 +152,6 @@ export const allTools = [
   browserSessionQueryTool,
   browserDownloadTool,
   browserUploadTool,
-  githubListIssuesTool,
-  fileAppendTool,
   // Visual editing tools
   visualSlideEditorTool,
 ];
@@ -173,7 +167,6 @@ export {
   presentationPreviewTool,
   grokXSearchTool,
   imagen4GenerationTool,
-  v0CodeGenerationTool,
   graphicRecordingTool,
   browserSessionTool,
   browserGotoTool,
@@ -190,8 +183,6 @@ export {
   browserSessionQueryTool,
   browserDownloadTool,
   browserUploadTool,
-  githubListIssuesTool,
-  fileAppendTool,
   // Visual editing tools
   visualSlideEditorTool,
 };

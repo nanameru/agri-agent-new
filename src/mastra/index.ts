@@ -18,7 +18,6 @@ import {
   geminiVideoGenerationTool,
   grokXSearchTool,
   imagen4GenerationTool,
-  v0CodeGenerationTool,
   graphicRecordingTool,
   minimaxTTSTool,
   weatherTool,
@@ -47,8 +46,7 @@ export const mastra = new Mastra({
     geminiVideoGenerationTool,
     grokXSearchTool,
     imagen4GenerationTool,
-    v0CodeGenerationTool,
-    graphicRecordingTool,
+      graphicRecordingTool,
     minimaxTTSTool,
     weatherTool,
     // Enhanced research tools removed for build stability
