@@ -212,7 +212,7 @@ const data = {
       icon: BookOpen,
     },
     {
-      title: "実証事例",
+      name: "実証事例",
       url: "/case-studies",
       icon: Lightbulb,
     },
