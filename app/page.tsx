@@ -77,12 +77,12 @@ interface Suggestion {
 
 // 提案項目のデータ
 const suggestions: Suggestion[] = [
-  { title: '補助金検索', prompt: '私の農業経営に適用できる補助金・助成金を検索してください' },
-  { title: '作付計画', prompt: '土壌データと市場価格を分析して最適な作付計画を立案してください' },
-  { title: '水肥最適化', prompt: 'センサーデータから水と肥料の最適なタイミングを提示してください' },
-  { title: '日報入力', prompt: '音声で今日の作業内容を記録します：' },
-  { title: '販売戦略', prompt: '作物の特徴を活かした魅力的なブランドストーリーを作成してください' },
-  { title: '収支予測', prompt: '営農収支と生活費をシミュレーションして投資計画を立ててください' },
+  { title: '利用可能な補助金を探す', prompt: '私の農業経営に適用できる補助金・助成金を検索してください' },
+  { title: '最適な作付計画を立てる', prompt: '土壌データと市場価格を分析して最適な作付計画を立案してください' },
+  { title: '水と肥料のタイミングを知る', prompt: 'センサーデータから水と肥料の最適なタイミングを提示してください' },
+  { title: '今日の作業を記録する', prompt: '音声で今日の作業内容を記録します：' },
+  { title: 'ブランドストーリーを作る', prompt: '作物の特徴を活かした魅力的なブランドストーリーを作成してください' },
+  { title: '収支シミュレーションする', prompt: '営農収支と生活費をシミュレーションして投資計画を立ててください' },
 ];
 
 export default function AppPage() {
@@ -165,6 +165,11 @@ export default function AppPage() {
     append: originalAppend,
     reload
   } = useChat({
+    initialInput: `土壌データと市場価格を分析して最適な作付け計画を立案してください。
+
+作物：
+面積：
+市町村名：`,
     api: '/api/slide-creator/chat', // Mastra slideCreatorAgent を使用するエンドポイント
     id: conversationId,
     body: {

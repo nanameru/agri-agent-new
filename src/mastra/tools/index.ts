@@ -104,6 +104,7 @@ function getWeatherCondition(code: number): string {
 // Import all tools to make them available in this module's scope
 import { htmlSlideTool } from './htmlSlideTool';
 import { braveSearchTool } from './braveSearchTool';
+import { eStatSearchTool } from './eStatSearchTool';
 import { geminiImageGenerationTool } from './geminiImageGenerationTool';
 import { presentationPreviewTool } from './presentationPreviewTool';
 import { grokXSearchTool } from './grokXSearchTool';
@@ -132,6 +133,7 @@ export const allTools = [
   weatherTool,
   htmlSlideTool,
   braveSearchTool,
+  eStatSearchTool,
   geminiImageGenerationTool,
   presentationPreviewTool,
   grokXSearchTool,
@@ -163,6 +165,7 @@ export const allToolNames = allTools.map((t: any) => t.name || t.id);
 export {
   htmlSlideTool,
   braveSearchTool,
+  eStatSearchTool,
   geminiImageGenerationTool,
   presentationPreviewTool,
   grokXSearchTool,

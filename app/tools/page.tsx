@@ -31,7 +31,9 @@ import {
   Search,
   Maximize,
   LogOut,
-  Shrink
+  Shrink,
+  BarChart3,
+  Database
 } from 'lucide-react';
 
 // ツールアイコンのマッピング
@@ -39,6 +41,7 @@ const toolIconMap: Record<string, any> = {
   htmlSlideTool: Presentation,
   presentationPreviewTool: Monitor,
   braveSearchTool: Search,
+  eStatSearchTool: BarChart3,
   grokXSearchTool: Brain,
   geminiImageGenerationTool: Image,
   imagen4GenerationTool: Sparkles,
@@ -69,6 +72,7 @@ const toolCategoryMap: Record<string, string> = {
   htmlSlideTool: 'プレゼンテーション',
   presentationPreviewTool: 'プレゼンテーション',
   braveSearchTool: '情報検索',
+  eStatSearchTool: '情報検索',
   grokXSearchTool: '情報検索',
   geminiImageGenerationTool: '画像生成',
   imagen4GenerationTool: '画像生成',
@@ -98,6 +102,7 @@ const toolDescriptionMap: Record<string, string> = {
   htmlSlideTool: 'プロフェッショナルなHTMLプレゼンテーションスライドを生成します。企業レベルの品質で、16:9アスペクト比、多様なレイアウトに対応。',
   presentationPreviewTool: 'HTMLコンテンツのプレビューを表示し、リアルタイムでプレゼンテーションの見た目を確認できます。',
   braveSearchTool: 'Brave Search APIを使用してウェブ検索を実行し、最新の情報を取得します。最大20件の検索結果を返します。',
+  eStatSearchTool: 'e-Stat（政府統計ポータルサイト）から農林業センサス、作物統計、農業産出額等の統計データを市町村レベルで検索できます。',
   grokXSearchTool: 'Grok\'s X.ai APIを使用してライブデータを含む高度な検索を実行します。最新のトレンドや情報にアクセス。',
   geminiImageGenerationTool: 'Google Gemini (Imagen 3)を使用してテキストプロンプトから高品質な画像を生成します。複数アスペクト比対応。',
   imagen4GenerationTool: 'Google最新のImagen 4モデルを使用して、より詳細で高品質な画像を生成します。',
@@ -128,6 +133,7 @@ const toolFeaturesMap: Record<string, string[]> = {
   htmlSlideTool: ['多様なレイアウト', '図解自動生成', 'レスポンシブデザイン', 'プロ品質'],
   presentationPreviewTool: ['リアルタイムプレビュー', 'HTMLレンダリング', 'インタラクティブ表示'],
   braveSearchTool: ['リアルタイム検索', '最大20件の結果', 'プライバシー重視'],
+  eStatSearchTool: ['政府統計データ', '市町村レベル', '農林業特化', '地域・期間フィルタ'],
   grokXSearchTool: ['ライブデータ', 'AI強化検索', 'トレンド分析', 'リアルタイム情報'],
   geminiImageGenerationTool: ['Imagen 3エンジン', '多様なアスペクト比', '高品質出力', 'カスタムシード'],
   imagen4GenerationTool: ['最新Imagen 4', '超高品質', '詳細な画像', '最先端AI'],
@@ -159,6 +165,7 @@ const agentToolNames = [
   'htmlSlideTool',
   'presentationPreviewTool',
   'braveSearchTool',
+  'eStatSearchTool',
   'grokXSearchTool',
   'geminiImageGenerationTool',
   'imagen4GenerationTool',
@@ -208,6 +215,7 @@ function getToolDisplayName(toolName: string): string {
     htmlSlideTool: 'HTML スライド生成',
     presentationPreviewTool: 'プレゼンテーション プレビュー',
     braveSearchTool: 'Brave Web検索',
+    eStatSearchTool: 'e-Stat 統計検索',
     grokXSearchTool: 'Grok X検索',
     geminiImageGenerationTool: 'Gemini 画像生成',
     imagen4GenerationTool: 'Imagen 4 画像生成',

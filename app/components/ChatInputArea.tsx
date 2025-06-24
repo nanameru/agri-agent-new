@@ -16,7 +16,8 @@ import {
   CommandList,
 } from "@/components/ui/command";
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
+import { AnimatePresence, motion } from "framer-motion";
+import Textarea from 'react-textarea-autosize';
 
 // Web Speech API の型定義
 declare global {
@@ -31,9 +32,9 @@ interface ChatInputAreaProps {
   handleInputChange: (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => void;
   handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
   isLoading: boolean;
+  placeholder?: string;
   isDeepResearchMode?: boolean;
   onDeepResearchModeChange?: (enabled: boolean) => void;
-  placeholder?: string;
 }
 
 // ツールオプションの型定義
@@ -112,7 +113,7 @@ export const ChatInputArea = ({
   isLoading,
   isDeepResearchMode = false,
   onDeepResearchModeChange,
-  placeholder = "質問してみましょう"
+  placeholder = "農業に関してお聞かせください..."
 }: ChatInputAreaProps) => {
   const [isListening, setIsListening] = useState(false);
   const [isSupported, setIsSupported] = useState(false);
@@ -225,7 +226,7 @@ export const ChatInputArea = ({
     <div className="bg-background/95 backdrop-blur-md">
       <div className="safe-areas">
         <form onSubmit={handleFormSubmit} className="max-w-4xl mx-auto p-2 md:p-4">
-          <div className="relative flex items-center agri-input-container bg-card rounded-2xl md:rounded-3xl border-2 border-border focus-within:border-primary transition-all shadow-sm">
+          <div className="flex flex-col gap-2 agri-input-container bg-card rounded-2xl md:rounded-3xl border-2 border-border focus-within:border-primary transition-all shadow-sm p-2">
             {/* ツール選択ドロップダウン - 非表示 */}
             {/* <Popover open={open} onOpenChange={setOpen}>
               <PopoverTrigger asChild>
@@ -286,8 +287,7 @@ export const ChatInputArea = ({
               </PopoverContent>
             </Popover> */}
 
-            <input
-              type="text"
+            <Textarea
               value={input}
               onChange={handleInputChange}
               placeholder={
@@ -299,10 +299,12 @@ export const ChatInputArea = ({
                     ? `${toolOptions.find(opt => opt.value === selectedTool)?.label}について質問してください` 
                     : placeholder
               }
-              className="flex-1 p-4 pl-4 pr-24 bg-transparent text-foreground placeholder-muted-foreground focus:outline-none text-base"
+              className="w-full bg-transparent text-foreground placeholder-muted-foreground focus:outline-none text-base resize-none"
               disabled={isLoading}
+              maxRows={10}
+              rows={1}
             />
-            <div className="absolute right-2 flex items-center gap-1">
+            <div className="self-end flex items-center gap-1">
               {/* 音声入力ボタン - 非表示 */}
               {/* {isSupported && (
                 <button
