@@ -13,7 +13,7 @@ import { Message } from 'ai';
 import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar';
 import { useDeepResearch } from './hooks/useDeepResearch';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
-import { Sparkles, Brain, Bot } from 'lucide-react';
+import { Sparkles, Brain, Bot, BotMessageSquare } from 'lucide-react';
 import { ModelProvider, useModel } from './components/ModelContext';
 import { useIsMobile } from "@/hooks/use-mobile"
 import { Sheet, SheetContent } from "@/components/ui/sheet"
@@ -618,9 +618,13 @@ export default function AppPage() {
                 <div className="space-y-0 pb-4">
                   {combinedMessages.length === 0 && !isLoading && !error && (
                     <div className="flex flex-col items-center justify-center">
-                      <div className="text-center space-y-4">
-                        <h1 className="text-3xl font-normal text-gray-800">Open-SuperAgent</h1>
+                      <div className="p-6 bg-white rounded-full shadow-lg border border-gray-200">
+                        <BotMessageSquare size={40} className="text-primary" />
                       </div>
+                      <h1 className="text-3xl font-normal text-gray-800">AGRI-Agent</h1>
+                      <p className="text-muted-foreground mt-2">
+                        あなたのタスクを自動化するAIアシスタント
+                      </p>
                     </div>
                   )}
                   

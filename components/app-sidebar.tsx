@@ -19,7 +19,9 @@ import {
   Users,
   Image,
   Lightbulb,
+  BotMessageSquare,
 } from "lucide-react"
+import Link from "next/link"
 
 import { NavDocuments } from "@/components/nav-documents"
 import { NavMain } from "@/components/nav-main"
@@ -99,10 +101,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               asChild
               className="data-[slot=sidebar-menu-button]:!p-1.5"
             >
-              <a href="/">
-                <ArrowUpCircle className="h-5 w-5" />
-                <span className="text-base font-semibold">Open-SuperAgent</span>
-              </a>
+              <Link href="/" className="flex items-center gap-2 p-4">
+                <div className="p-2 bg-primary rounded-lg">
+                  <BotMessageSquare size={20} className="text-primary-foreground" />
+                </div>
+                <span className="text-base font-semibold">AGRI-Agent</span>
+              </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>

@@ -13,6 +13,7 @@ import { Message } from 'ai';
 import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar';
 import { useDeepResearch } from '@/app/hooks/useDeepResearch';
 import { ArrowPathIcon, MagnifyingGlassIcon, LightBulbIcon } from '@heroicons/react/24/outline';
+import { BrainCircuit } from 'lucide-react';
 
 // ツール実行メッセージ用の型
 interface ToolMessage {
@@ -596,9 +597,13 @@ export default function AppPage() {
                 <div className="space-y-0 pb-24">
                   {combinedMessages.length === 0 && !isLoading && !error && (
                     <div className="flex flex-col items-center justify-center">
-                      <div className="text-center space-y-4">
-                        <h1 className="text-3xl font-normal text-gray-800">Open-SuperAgent</h1>
+                      <div className="p-6 bg-white rounded-full shadow-lg border border-gray-200">
+                        <BrainCircuit size={40} className="text-primary" />
                       </div>
+                      <h1 className="text-3xl font-normal text-gray-800">AGRI-Agent</h1>
+                      <p className="text-muted-foreground mt-2">
+                        専門家AIチームがあなたの課題を解決
+                      </p>
                     </div>
                   )}
                   

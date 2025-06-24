@@ -33,15 +33,12 @@ export default function UsecasesPage() {
       <SidebarInset>
         <div className="min-h-screen bg-background">
           <div className="container mx-auto px-4 py-8">
-            <div className="mb-12 text-center">
-              <div className="inline-flex items-center justify-center p-3 mb-4 bg-muted rounded-full border">
-                  <Twitter className="h-7 w-7 text-foreground" />
-              </div>
-              <h1 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-                活用事例
+            <div className="text-center">
+              <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
+                ユースケース
               </h1>
-              <p className="mt-3 text-lg text-muted-foreground">
-                Open-SuperAgentが実際に活用されている事例をご紹介します。
+              <p className="mt-6 text-lg leading-8 text-gray-600">
+                AGRI-Agentが実際に活用されている事例をご紹介します。
               </p>
             </div>
 

@@ -119,8 +119,6 @@ import { browserWaitTool } from './browserWaitTool';
 import { browserScreenshotTool } from './browserScreenshotTool';
 import { browserCloseTool } from './browserCloseTool';
 import { browserCaptchaDetectTool } from './browserCaptchaDetectTool';
-import { claudeAnalysisTool } from './claudeAnalysisTool';
-import { claudeFileTool } from './claudeFileTool';
 import { githubListIssuesTool } from './githubListIssuesTool';
 import { fileAppendTool } from './fileAppendTool';
 // Enhanced browser tools
@@ -158,8 +156,6 @@ export const allTools = [
   browserSessionQueryTool,
   browserDownloadTool,
   browserUploadTool,
-  claudeAnalysisTool,
-  claudeFileTool,
   githubListIssuesTool,
   fileAppendTool,
   // Visual editing tools
@@ -194,8 +190,6 @@ export {
   browserSessionQueryTool,
   browserDownloadTool,
   browserUploadTool,
-  claudeAnalysisTool,
-  claudeFileTool,
   githubListIssuesTool,
   fileAppendTool,
   // Visual editing tools

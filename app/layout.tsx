@@ -20,8 +20,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Open-SuperAgent",
-  description: "Open-SuperAgent - An open-source AI assistant",
+  title: "AGRI-Agent",
+  description: "AGRI-Agent - An open-source AI assistant",
 };
 
 export default function RootLayout({

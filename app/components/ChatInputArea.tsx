@@ -167,8 +167,8 @@ export const ChatInputArea = ({
       <div className="safe-areas">
         <form onSubmit={handleFormSubmit} className="max-w-4xl mx-auto p-2 md:p-4">
           <div className="relative flex items-center bg-gray-100 rounded-2xl md:rounded-3xl border border-gray-200 focus-within:ring-1 focus-within:ring-gray-300 focus-within:border-gray-300 transition-all shadow-sm">
-            {/* ツール選択ドロップダウン */}
-            <Popover open={open} onOpenChange={setOpen}>
+            {/* ツール選択ドロップダウン - 非表示 */}
+            {/* <Popover open={open} onOpenChange={setOpen}>
               <PopoverTrigger asChild>
                 <button
                   type="button"
@@ -225,7 +225,7 @@ export const ChatInputArea = ({
                   </CommandList>
                 </Command>
               </PopoverContent>
-            </Popover>
+            </Popover> */}
 
             <input
               type="text"
@@ -244,8 +244,8 @@ export const ChatInputArea = ({
               disabled={isLoading}
             />
             <div className="absolute right-2 flex items-center gap-1">
-              {/* 音声入力ボタン */}
-              {isSupported && (
+              {/* 音声入力ボタン - 非表示 */}
+              {/* {isSupported && (
                 <button
                   type="button"
                   onClick={toggleVoiceInput}
@@ -259,7 +259,7 @@ export const ChatInputArea = ({
                 >
                   {isListening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
                 </button>
-              )}
+              )} */}
               
               {/* 送信ボタン */}
               <button 
