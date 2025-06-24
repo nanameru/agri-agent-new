@@ -15,11 +15,9 @@ import {
   presentationPreviewTool,
   braveSearchTool,
   geminiImageGenerationTool,
-  geminiVideoGenerationTool,
   grokXSearchTool,
   imagen4GenerationTool,
   graphicRecordingTool,
-  minimaxTTSTool,
   weatherTool,
   // Enhanced research tools removed for build stability
 } from './tools';
@@ -43,12 +41,10 @@ export const mastra = new Mastra({
     presentationPreviewTool,
     braveSearchTool,
     geminiImageGenerationTool,
-    geminiVideoGenerationTool,
-    grokXSearchTool,
+      grokXSearchTool,
     imagen4GenerationTool,
       graphicRecordingTool,
-    minimaxTTSTool,
-    weatherTool,
+      weatherTool,
     // Enhanced research tools removed for build stability
   } as any,
   workflows: {
