@@ -67,7 +67,7 @@ export const citationExtractionTool = createTool({
   execute: async ({ context }) => {
     try {
       const { sources, citationStyle, includeInText } = context;
-      const model = anthropic('claude-opus-4-20250514');
+      const model = anthropic('claude-3-7-sonnet-20250219');
       
       const citations = [];
       const bibliography: { APA: string[]; MLA: string[]; Chicago: string[] } = { APA: [], MLA: [], Chicago: [] };

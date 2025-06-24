@@ -4,9 +4,9 @@ import { openai } from '@ai-sdk/openai';
 import { google } from '@ai-sdk/google';
 
 // Create different models for different tasks
-const analysisModel = anthropic('claude-opus-4-20250514'); // High-quality analysis
+const analysisModel = anthropic('claude-3-7-sonnet-20250219'); // High-quality analysis
 const queryModel = google('gemini-2.0-flash-exp'); // Fast query generation
-const synthesisModel = anthropic('claude-opus-4-20250514'); // High-quality synthesis
+const synthesisModel = anthropic('claude-3-7-sonnet-20250219'); // High-quality synthesis
 
 // Research Query Planning Agent
 export const queryPlanningAgent = new Agent({

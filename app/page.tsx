@@ -8,6 +8,8 @@ import { ChatMessage } from './components/ChatMessage';
 import { PresentationTool } from './components/PresentationTool';
 import { ImageTool } from './components/ImageTool';
 import { BrowserOperationSidebar } from './components/BrowserOperationSidebar';
+import { DailyReportWidget } from './components/DailyReportWidget';
+import { DashboardWidgets } from './components/DashboardWidgets';
 import React, { useEffect, useState, useRef, useCallback, useOptimistic, startTransition } from 'react';
 import { Message } from 'ai';
 import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar';
@@ -17,6 +19,7 @@ import { Sparkles, Brain, Bot, BotMessageSquare, Wheat, Sprout } from 'lucide-re
 import { ModelProvider, useModel } from './components/ModelContext';
 import { useIsMobile } from "@/hooks/use-mobile"
 import { Sheet, SheetContent } from "@/components/ui/sheet"
+import { Button } from "@/components/ui/button"
 
 // ツール実行メッセージ用の型
 interface ToolMessage {
@@ -65,6 +68,22 @@ interface BrowserbaseToolState {
 // メッセージの型（Message型とToolMessage型の両方を含む）
 type UIMessage = Message | ToolMessage;
 
+// 提案項目の型定義
+interface Suggestion {
+  title: string;
+  prompt: string;
+  icon?: React.ComponentType<any>; // オプショナル
+}
+
+// 提案項目のデータ
+const suggestions: Suggestion[] = [
+  { title: '補助金検索', prompt: '私の農業経営に適用できる補助金・助成金を検索してください' },
+  { title: '作付計画', prompt: '土壌データと市場価格を分析して最適な作付計画を立案してください' },
+  { title: '水肥最適化', prompt: 'センサーデータから水と肥料の最適なタイミングを提示してください' },
+  { title: '日報入力', prompt: '音声で今日の作業内容を記録します：' },
+  { title: '販売戦略', prompt: '作物の特徴を活かした魅力的なブランドストーリーを作成してください' },
+  { title: '収支予測', prompt: '営農収支と生活費をシミュレーションして投資計画を立ててください' },
+];
 
 export default function AppPage() {
   const { currentModel } = useModel();
@@ -567,6 +586,15 @@ export default function AppPage() {
   //   });
   // }, [showBrowserPanel, browserbaseToolState]);
 
+  // 提案クリック時の処理
+  const handleSuggestionClick = (prompt: string) => {
+    // inputの値を更新するために、handleInputChangeを模倣
+    const syntheticEvent = {
+      target: { value: prompt }
+    } as React.ChangeEvent<HTMLInputElement>;
+    handleInputChange(syntheticEvent);
+  };
+
   return (
     <SidebarProvider className="h-screen">
       {isMobile ? (
@@ -613,80 +641,91 @@ export default function AppPage() {
                 />
               )}
               
-              {/* メッセージコンテナ - 常に同じ構造 */}
-              <div className={`flex-1 flex flex-col ${combinedMessages.length === 0 ? 'justify-center items-center' : 'justify-start'} min-h-0`}>
-                <div className="space-y-0 pb-4">
-                  {combinedMessages.length === 0 && !isLoading && !error && (
-                    <div className="flex flex-col items-center justify-center">
-                      <div className="p-8 bg-primary/5 rounded-full shadow-lg border-2 border-primary/10 relative">
-                        <Wheat size={48} className="text-primary" />
-                        <Sprout size={24} className="text-secondary absolute -top-2 -right-2" />
-                      </div>
-                      <h1 className="text-4xl font-bold text-primary mt-4">🌾 AGRI-Agent</h1>
-                      <p className="text-muted-foreground mt-3 text-center max-w-md">
-                        農業の専門知識とAI技術を融合した<br />
-                        あなたの農業パートナー
-                      </p>
-                      <div className="flex gap-2 mt-4 text-sm text-muted-foreground">
-                        <span className="flex items-center gap-1">
-                          <span className="w-2 h-2 bg-accent rounded-full"></span>
-                          作物管理
-                        </span>
-                        <span className="flex items-center gap-1">
-                          <span className="w-2 h-2 bg-secondary rounded-full"></span>
-                          気象分析
-                        </span>
-                        <span className="flex items-center gap-1">
-                          <span className="w-2 h-2 bg-primary rounded-full"></span>
-                          収穫予測
-                        </span>
+              {/* ダッシュボードまたはメッセージコンテナ */}
+              <div className="flex-1 flex flex-col min-h-0">
+                {combinedMessages.length === 0 && !isLoading && !error ? (
+                  /* 新しいダッシュボード表示 (ChatGPT風) */
+                  <div className="flex flex-col items-center justify-center h-full text-center">
+                    <div className="mb-6">
+                      <h1 className="text-4xl font-bold text-gray-800 dark:text-gray-200">
+                        どこから始めますか？
+                      </h1>
+                    </div>
+                    {/* 中央に配置された入力エリア */}
+                    <div className="w-full max-w-2xl px-4">
+                       <ChatInputArea
+                          input={input}
+                          handleInputChange={handleInputChange}
+                          handleSubmit={handleCustomSubmit}
+                          isLoading={isLoading || isDeepResearchLoading}
+                          isDeepResearchMode={isDeepResearchMode}
+                          onDeepResearchModeChange={setIsDeepResearchMode}
+                          placeholder="質問してみましょう"
+                        />
+                    </div>
+                    {/* 提案ボタンのコンテナ */}
+                    <div className="w-full max-w-4xl px-4 mt-8">
+                      <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                        {suggestions.map((item, index) => (
+                          <Button
+                            key={index}
+                            variant="outline"
+                            className="h-auto text-left justify-start p-4 rounded-lg border-gray-200 hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-gray-800"
+                            onClick={() => handleSuggestionClick(item.prompt)}
+                          >
+                            <span className="text-sm font-normal text-gray-600 dark:text-gray-400">{item.title}</span>
+                          </Button>
+                        ))}
                       </div>
                     </div>
-                  )}
+                  </div>
+                ) : (
+                  /* チャットメッセージ表示 */
+                  <div className="space-y-0 pb-4">
+                    {combinedMessages.map((m, i) => (
+                      <ChatMessage 
+                        key={`${m.id}-${i}`} 
+                        message={m} 
+                        onPreviewOpen={() => setIsPreviewOpen(true)}
+                        onPreviewClose={() => setIsPreviewOpen(false)}
+                        onPreviewWidthChange={handlePreviewPanelWidthChange}
+                        onBrowserbasePreview={handleBrowserbasePreview}
+                        onBrowserAutomationDetected={handleBrowserAutomationDetected}
+                        deepResearchEvents={deepResearchEvents}
+                        isDeepResearchLoading={isDeepResearchLoading}
+                      />
+                    ))}
+                  </div>
+                )}
+                
+                {/* 思考中表示（チャットモード時のみ） */}
+                {combinedMessages.length > 0 && (() => {
+                  // 回答が始まったかどうかを判定
+                  const hasAssistantStartedResponse = combinedMessages.length > 0 && 
+                    combinedMessages[combinedMessages.length - 1].role === 'assistant' &&
+                    combinedMessages[combinedMessages.length - 1].content.length > 0;
                   
-                  {combinedMessages.map((m, i) => (
-                    <ChatMessage 
-                      key={`${m.id}-${i}`} 
-                      message={m} 
-                      onPreviewOpen={() => setIsPreviewOpen(true)}
-                      onPreviewClose={() => setIsPreviewOpen(false)}
-                      onPreviewWidthChange={handlePreviewPanelWidthChange}
-                      onBrowserbasePreview={handleBrowserbasePreview}
-                      onBrowserAutomationDetected={handleBrowserAutomationDetected}
-                      deepResearchEvents={deepResearchEvents}
-                      isDeepResearchLoading={isDeepResearchLoading}
-                    />
-                  ))}
+                  // アイコンタイプに応じたアニメーションクラスを決定
+                  const getIconAnimation = (iconComponent: any) => {
+                    if (iconComponent === Sparkles) {
+                      return "h-5 w-5 text-muted-foreground animate-pulse";
+                    }
+                    return "h-5 w-5 text-muted-foreground animate-spin";
+                  };
                   
-                  {/* 思考中表示 */}
-                  {(() => {
-                    // 回答が始まったかどうかを判定
-                    const hasAssistantStartedResponse = combinedMessages.length > 0 && 
-                      combinedMessages[combinedMessages.length - 1].role === 'assistant' &&
-                      combinedMessages[combinedMessages.length - 1].content.length > 0;
-                    
-                    // アイコンタイプに応じたアニメーションクラスを決定
-                    const getIconAnimation = (iconComponent: any) => {
-                      if (iconComponent === Sparkles) {
-                        return "h-5 w-5 text-gray-600 animate-pulse"; // キラキラ効果
-                      }
-                      return "h-5 w-5 text-gray-600 animate-spin"; // 回転
-                    };
-                    
-                    return statusText && statusIcon && !hasAssistantStartedResponse && (
-                      <div className="w-full py-4">
-                        <div className="flex items-center gap-3">
-                          <div className="p-2 bg-gray-100 rounded-lg">
-                            {React.createElement(statusIcon, { className: getIconAnimation(statusIcon) })}
-                          </div>
-                          <div className="text-gray-600 font-medium">
-                            {statusText}
-                          </div>
+                  return statusText && statusIcon && !hasAssistantStartedResponse && (
+                    <div className="w-full py-4">
+                      <div className="flex items-center gap-3">
+                        <div className="p-2 bg-muted rounded-lg">
+                          {React.createElement(statusIcon, { className: getIconAnimation(statusIcon) })}
+                        </div>
+                        <div className="text-muted-foreground font-medium">
+                          {statusText}
                         </div>
                       </div>
-                    );
-                  })()}
-                </div>
+                    </div>
+                  );
+                })()}
               </div>
             </div>
           </main>
@@ -759,14 +798,17 @@ export default function AppPage() {
             </div>
           )}
         </div>
-        <ChatInputArea
-          input={input}
-          handleInputChange={handleInputChange}
-          handleSubmit={handleCustomSubmit}
-          isLoading={isLoading || isDeepResearchLoading}
-          isDeepResearchMode={isDeepResearchMode}
-          onDeepResearchModeChange={setIsDeepResearchMode}
-        />
+        { combinedMessages.length > 0 && 
+            <ChatInputArea
+            input={input}
+            handleInputChange={handleInputChange}
+            handleSubmit={handleCustomSubmit}
+            isLoading={isLoading || isDeepResearchLoading}
+            isDeepResearchMode={isDeepResearchMode}
+            onDeepResearchModeChange={setIsDeepResearchMode}
+            placeholder="質問してみましょう" // プレースホルダーを追加
+          />
+        }
       </SidebarInset>
     </SidebarProvider>
   );

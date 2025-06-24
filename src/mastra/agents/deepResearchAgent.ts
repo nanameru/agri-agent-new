@@ -23,7 +23,7 @@ import { citationExtractionTool } from '../tools/citationExtractionTool';
 import { contentSynthesisTool } from '../tools/contentSynthesisTool';
 
 // Model creation function
-export function createResearchModel(provider: string = 'claude', modelName: string = 'claude-opus-4-20250514') {
+export function createResearchModel(provider: string = 'claude', modelName: string = 'claude-3-7-sonnet-20250219') {
   switch (provider) {
     case 'openai':
       return openai(modelName);
@@ -32,12 +32,12 @@ export function createResearchModel(provider: string = 'claude', modelName: stri
     case 'gemini':
       return google(modelName);
     default:
-      return anthropic('claude-opus-4-20250514'); // Default to Claude Opus
+      return anthropic('claude-3-7-sonnet-20250219'); // Default to Claude 3.7 Sonnet
   }
 }
 
 // Deep Research Agent factory function
-export function createDeepResearchAgent(provider: string = 'claude', modelName: string = 'claude-opus-4-20250514') {
+export function createDeepResearchAgent(provider: string = 'claude', modelName: string = 'claude-3-7-sonnet-20250219') {
   const model = createResearchModel(provider, modelName);
   
   return new Agent({

@@ -1,5 +1,8 @@
 "use client";
 
+import React from 'react';
+import { Button } from '@/components/ui/button';
+import { ChevronRight } from 'lucide-react';
 import { useEffect } from 'react';
 
 const StagewiseToolbar = () => {
@@ -26,7 +29,11 @@ const StagewiseToolbar = () => {
     }
   }, []);
 
-  return null; // このコンポーネントはUIを描画しない
+  return (
+    <div className="bg-background border-t border-border">
+      {/* 提案リストのJSXを削除 */}
+    </div>
+  );
 };
 
 export default StagewiseToolbar; 

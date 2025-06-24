@@ -10,7 +10,7 @@ import {
 export const researchNetwork = new AgentNetwork({
   name: 'Research Network',
   agents: [weatherAgent, slideCreatorAgent, imageCreatorAgent, openSuperagent],
-  model: openai('claude-opus-4-20250514'), // Add the model property which is required
+  model: openai('claude-3-7-sonnet-20250219'), // Add the model property which is required
   instructions: `
       You are a research coordination system that routes queries to the appropriate specialized agents.
       

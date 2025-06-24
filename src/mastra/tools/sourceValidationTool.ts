@@ -57,7 +57,7 @@ export const sourceValidationTool = createTool({
   execute: async ({ context }) => {
     try {
       const { sources, validationCriteria, researchTopic } = context;
-      const model = anthropic('claude-opus-4-20250514');
+      const model = anthropic('claude-3-7-sonnet-20250219');
       
       const validationResults = [];
       

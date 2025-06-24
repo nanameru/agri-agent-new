@@ -15,6 +15,9 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
+import { AnimatePresence, motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
 
 // Web Speech API の型定義
 declare global {
@@ -41,31 +44,49 @@ interface ToolOption {
   description: string;
 }
 
-// 農業クイックアクション
+// 6つのAIエージェントクラスターに対応したクイックアクション
 const quickActions = [
   {
-    id: 'weather',
-    label: '天気予報',
-    icon: <Sun className="h-4 w-4" />,
-    prompt: '今日の天気予報と農作業への影響を教えてください'
+    id: 'subsidy-search',
+    label: '補助金検索',
+    icon: <Search className="h-4 w-4" />,
+    prompt: '私の農業経営に適用できる補助金・助成金を検索してください',
+    cluster: 'データリサーチ'
   },
   {
-    id: 'irrigation',
-    label: '灌水管理',
+    id: 'crop-planning',
+    label: '作付計画',
+    icon: <Calendar className="h-4 w-4" />,
+    prompt: '土壌データと市場価格を分析して最適な作付計画を立案してください',
+    cluster: '生産管理'
+  },
+  {
+    id: 'irrigation-optimize',
+    label: '水肥最適化',
     icon: <Droplets className="h-4 w-4" />,
-    prompt: '現在の土壌水分と灌水スケジュールを確認してください'
+    prompt: 'センサーデータから水と肥料の最適なタイミングを提示してください',
+    cluster: '生産管理'
   },
   {
-    id: 'crop-status',
-    label: '作物状況',
-    icon: <Wheat className="h-4 w-4" />,
-    prompt: '作物の成長状況と病害虫の確認をお願いします'
+    id: 'daily-report',
+    label: '日報入力',
+    icon: <CloudRain className="h-4 w-4" />,
+    prompt: '音声で今日の作業内容を記録します：',
+    cluster: '日報・ナレッジ'
   },
   {
-    id: 'harvest',
-    label: '収穫予測',
+    id: 'sales-pitch',
+    label: '販売戦略',
     icon: <TrendingUp className="h-4 w-4" />,
-    prompt: '収穫時期の予測と準備すべき作業を教えてください'
+    prompt: '作物の特徴を活かした魅力的なブランドストーリーを作成してください',
+    cluster: '市場・販路拡大'
+  },
+  {
+    id: 'cost-simulation',
+    label: '収支予測',
+    icon: <Sun className="h-4 w-4" />,
+    prompt: '営農収支と生活費をシミュレーションして投資計画を立ててください',
+    cluster: '生活・移住支援'
   }
 ];
 
@@ -200,25 +221,8 @@ export const ChatInputArea = ({
   };
 
   return (
-    <div className="bg-background/95 backdrop-blur-md border-t border-border">
+    <div className="bg-background/95 backdrop-blur-md">
       <div className="safe-areas">
-        {/* 農業クイックアクション */}
-        <div className="max-w-4xl mx-auto px-2 md:px-4 pt-3 pb-2">
-          <div className="flex gap-2 overflow-x-auto scrollbar-hide">
-            {quickActions.map((action) => (
-              <button
-                key={action.id}
-                onClick={() => handleQuickAction(action.prompt)}
-                className="agri-quick-action flex-shrink-0"
-                disabled={isLoading}
-              >
-                {action.icon}
-                <span>{action.label}</span>
-              </button>
-            ))}
-          </div>
-        </div>
-
         <form onSubmit={handleFormSubmit} className="max-w-4xl mx-auto p-2 md:p-4">
           <div className="relative flex items-center agri-input-container bg-card rounded-2xl md:rounded-3xl border-2 border-border focus-within:border-primary transition-all shadow-sm">
             {/* ツール選択ドロップダウン - 非表示 */}

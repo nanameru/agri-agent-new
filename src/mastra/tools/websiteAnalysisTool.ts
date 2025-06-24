@@ -56,7 +56,7 @@ export const websiteAnalysisTool = createTool({
       // For this implementation, we'll use a combination of URL analysis and AI reasoning
       // In a production environment, this would integrate with browser automation tools
       
-      const model = anthropic('claude-opus-4-20250514');
+      const model = anthropic('claude-3-7-sonnet-20250219');
       
       // Extract domain and basic URL information
       const urlObj = new URL(url);

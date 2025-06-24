@@ -391,7 +391,7 @@ HTMLはすべて <div class="${promptArgs.uniqueId}"> 内にスコープして�
 
     try {
       const { text: generatedHtml } = await generateText({
-        model: anthropic('claude-opus-4-20250514'), // Claude Opusモデルを使用
+        model: anthropic('claude-3-7-sonnet-20250219'), // Claude Opusモデルを使用
         prompt: systemPrompt,
       });
 

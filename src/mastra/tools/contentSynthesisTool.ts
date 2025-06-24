@@ -327,7 +327,7 @@ export const contentSynthesisTool = createTool({
   execute: async ({ context }) => {
     try {
       const { sources, researchQuestion, synthesisType, outputFormat } = context;
-      const model = anthropic('claude-opus-4-20250514');
+      const model = anthropic('claude-3-7-sonnet-20250219');
       
       const synthesisPrompt = buildSynthesisPrompt(context);
       

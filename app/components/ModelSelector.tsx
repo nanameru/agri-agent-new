@@ -20,7 +20,7 @@ interface Model {
 }
 
 const models: Model[] = [
-  { id: 'claude-opus-4-20250514', provider: 'bedrock', name: 'claude-opus-4-20250514', displayName: 'Amazon Bedrock' },
+  { id: 'claude-3-7-sonnet-20250219', provider: 'claude', name: 'claude-3-7-sonnet-20250219', displayName: 'Amazon Bedrock' },
 ];
 
 const providerConfig = {
