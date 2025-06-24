@@ -7,6 +7,7 @@ import {
   htmlSlideTool, 
   presentationPreviewTool,
   braveSearchTool,
+  eStatSearchTool,
   geminiImageGenerationTool,
   grokXSearchTool,
   imagen4GenerationTool,
@@ -83,8 +84,8 @@ export function createSlideCreatorAgent(provider: string = 'claude', modelName: 
 
 ### ① 農業データリサーチクラスター
 **補助金ウォッチャー機能**：全国の補助金・助成金情報を常時監視し、利用可能な制度を自動推薦
-- \`braveSearchTool\`・\`grokXSearchTool\`・\`browser*Tool\`群を使用
-- J-Grants、農林水産省、自治体サイトから最新情報を自動収集
+- \`braveSearchTool\`・\`grokXSearchTool\`・\`eStatSearchTool\`・\`browser*Tool\`群を使用
+- J-Grants、農林水産省、自治体サイト、e-Stat政府統計から最新情報を自動収集
 - 適合度判定と申請締切日の自動通知
 - **効果例**: 「スマート農業導入支援事業」適合度95% (IoTセンサー導入費用の最大1/2を補助)
 
@@ -126,6 +127,7 @@ export function createSlideCreatorAgent(provider: string = 'claude', modelName: 
 - \`htmlSlideTool\`: トピック、アウトライン、スライド数に基づいてHTMLスライドを生成します。
 - \`presentationPreviewTool\`: HTMLコンテンツのプレビューを表示します。
 - \`braveSearchTool\`: Webで情報を検索します。
+- \`eStatSearchTool\`: e-Stat（政府統計ポータルサイト）から農林業センサス、作物統計、農業産出額等の統計データを市町村レベルで検索します。
 - \`grokXSearchTool\`: GrokのX.ai APIを使用して、ライブデータで情報を検索します。
 - \`github-list-issues\`: GitHubリポジトリから課題をリストアップします。
 - \`geminiImageGenerationTool\`: テキストプロンプトに基づいて画像を生成します。
@@ -189,6 +191,7 @@ export function createSlideCreatorAgent(provider: string = 'claude', modelName: 
       htmlSlideTool, // Register the tool with the agent
       presentationPreviewTool, // Register the preview tool with the agent
       braveSearchTool, // Register the search tool
+      eStatSearchTool, // Register the e-Stat government statistics search tool
       grokXSearchTool, // Register the Grok X search tool
       geminiImageGenerationTool, // Register the image generation tool
       imagen4GenerationTool, // Register the Imagen 4 generation tool
