@@ -33,6 +33,7 @@ interface ChatInputAreaProps {
   isLoading: boolean;
   isDeepResearchMode?: boolean;
   onDeepResearchModeChange?: (enabled: boolean) => void;
+  placeholder?: string;
 }
 
 // ツールオプションの型定義
@@ -110,7 +111,8 @@ export const ChatInputArea = ({
   handleSubmit, 
   isLoading,
   isDeepResearchMode = false,
-  onDeepResearchModeChange
+  onDeepResearchModeChange,
+  placeholder = "質問してみましょう"
 }: ChatInputAreaProps) => {
   const [isListening, setIsListening] = useState(false);
   const [isSupported, setIsSupported] = useState(false);
@@ -295,7 +297,7 @@ export const ChatInputArea = ({
                     : "Deep Researchで詳細調査します..." 
                   : selectedTool 
                     ? `${toolOptions.find(opt => opt.value === selectedTool)?.label}について質問してください` 
-                    : "農業に関してお聞かせください..."
+                    : placeholder
               }
               className="flex-1 p-4 pl-4 pr-24 bg-transparent text-foreground placeholder-muted-foreground focus:outline-none text-base"
               disabled={isLoading}
