@@ -259,15 +259,15 @@ function ToolCard({ tool }: ToolCardProps) {
   const ToolIcon = tool.icon;
 
   return (
-    <Card className="flex flex-col h-full transition-all duration-300 ease-in-out hover:shadow-md">
-      <CardHeader className="flex flex-row items-center gap-4 pb-4">
+    <Card className="flex flex-col h-full transition-all duration-300 ease-in-out hover:shadow-md touch-manipulation">
+      <CardHeader className="flex flex-row items-center gap-3 sm:gap-4 pb-3 sm:pb-4">
         <div className="p-2 bg-muted rounded-lg border">
-          <ToolIcon className="h-5 w-5 text-foreground" />
+          <ToolIcon className="h-4 w-4 sm:h-5 sm:w-5 text-foreground" />
         </div>
-        <CardTitle className="text-base font-semibold leading-tight">{tool.name}</CardTitle>
+        <CardTitle className="text-sm sm:text-base font-semibold leading-tight">{tool.name}</CardTitle>
       </CardHeader>
-      <CardContent className="pt-0 pb-4 flex-grow">
-        <Badge variant="outline">{tool.category}</Badge>
+      <CardContent className="pt-0 pb-3 sm:pb-4 flex-grow">
+        <Badge variant="outline" className="text-xs">{tool.category}</Badge>
       </CardContent>
     </Card>
   );
@@ -288,18 +288,18 @@ function CategoryCard({ category, onClick, isSelected }: CategoryCardProps) {
 
   return (
     <Card 
-      className={`cursor-pointer transition-all duration-300 ease-in-out hover:shadow-md ${
+      className={`cursor-pointer transition-all duration-300 ease-in-out hover:shadow-md touch-manipulation min-h-[80px] ${
         isSelected ? 'ring-2 ring-primary' : ''
       }`}
       onClick={onClick}
     >
-      <CardHeader className="flex flex-row items-center gap-4 pb-4">
-        <div className="p-3 bg-muted rounded-lg border">
-          <CategoryIcon className="h-6 w-6 text-foreground" />
+      <CardHeader className="flex flex-row items-center gap-3 sm:gap-4 pb-3 sm:pb-4">
+        <div className="p-2 sm:p-3 bg-muted rounded-lg border">
+          <CategoryIcon className="h-5 w-5 sm:h-6 sm:w-6 text-foreground" />
         </div>
-        <div>
-          <CardTitle className="text-lg font-semibold">{category.name}</CardTitle>
-          <CardDescription>{category.count}個のツール</CardDescription>
+        <div className="min-w-0">
+          <CardTitle className="text-base sm:text-lg font-semibold truncate">{category.name}</CardTitle>
+          <CardDescription className="text-xs sm:text-sm">{category.count}個のツール</CardDescription>
         </div>
       </CardHeader>
     </Card>
@@ -358,17 +358,17 @@ export default function ToolsPage() {
       <AppSidebar />
       <SidebarInset>
         <div className="min-h-screen bg-background">
-          <div className="container mx-auto px-4 py-8 max-w-7xl">
+          <div className="container mx-auto px-2 sm:px-4 py-4 sm:py-8 max-w-7xl">
             {/* ヘッダー */}
-            <div className="mb-8">
-              <h1 className="text-3xl font-bold mb-2">使えるツール一覧</h1>
-              <p className="text-muted-foreground">AGRI-Agentが使用できるツールのカテゴリ一覧です。</p>
+            <div className="mb-6 sm:mb-8">
+              <h1 className="text-2xl sm:text-3xl font-bold mb-2">使えるツール一覧</h1>
+              <p className="text-sm sm:text-base text-muted-foreground">AGRI-Agentが使用できるツールのカテゴリ一覧です。</p>
             </div>
 
             {/* カテゴリカード一覧 */}
-            <div className="mb-8">
-              <h2 className="text-xl font-semibold mb-4">カテゴリから選択</h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            <div className="mb-6 sm:mb-8">
+              <h2 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4">カテゴリから選択</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4">
                 {categories.map(category => (
                   <CategoryCard 
                     key={category.name}
@@ -383,10 +383,10 @@ export default function ToolsPage() {
             {/* 選択されたカテゴリのツール一覧 */}
             {selectedCategory && (
               <div>
-                <h2 className="text-xl font-semibold mb-4">
+                <h2 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4">
                   {selectedCategory === 'すべて' ? '全ツール' : `${selectedCategory}のツール`}
                 </h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4">
                   {filteredTools.map(tool => (
                     <ToolCard key={tool.id} tool={tool} />
                   ))}

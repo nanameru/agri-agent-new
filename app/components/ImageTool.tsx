@@ -100,15 +100,15 @@ export const ImageTool: React.FC<ImageToolProps> = ({
   return (
     <>
       {/* 画像ツールUIコンポーネント */}
-      <div className="border border-gray-200 rounded-lg p-4 mb-6 bg-white shadow-sm">
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center space-x-2">
-            <PhotoIcon className="h-5 w-5 text-gray-600" />
-            <h2 className="text-lg font-medium">Generated Image | {currentPrompt}</h2>
+      <div className="border border-gray-200 rounded-lg p-3 sm:p-4 mb-4 sm:mb-6 bg-white shadow-sm">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-3 sm:mb-4 gap-3 sm:gap-0">
+          <div className="flex items-center space-x-2 min-w-0">
+            <PhotoIcon className="h-4 w-4 sm:h-5 sm:w-5 text-gray-600 flex-shrink-0" />
+            <h2 className="text-base sm:text-lg font-medium truncate">Generated Image | {currentPrompt}</h2>
           </div>
           <button
             onClick={openPreviewPanel}
-            className="flex items-center space-x-1 bg-gray-800 hover:bg-gray-700 text-white px-4 py-2 rounded-md transition-colors"
+            className="flex items-center justify-center space-x-1 bg-gray-800 hover:bg-gray-700 text-white px-4 py-2 rounded-md transition-colors min-h-[44px] touch-manipulation flex-shrink-0"
             disabled={currentImages.length === 0}
           >
             <EyeIcon className="h-4 w-4" />
@@ -117,10 +117,10 @@ export const ImageTool: React.FC<ImageToolProps> = ({
         </div>
 
         <div 
-          className="flex items-center border border-gray-200 rounded-lg p-4 mb-4 bg-gray-50 cursor-pointer"
+          className="flex items-center border border-gray-200 rounded-lg p-3 sm:p-4 mb-3 sm:mb-4 bg-gray-50 cursor-pointer touch-manipulation"
           onClick={openPreviewPanel}
         >
-          <div className="flex-shrink-0 w-16 h-16 flex items-center justify-center text-gray-400 bg-gray-100 rounded-lg overflow-hidden relative">
+          <div className="flex-shrink-0 w-12 h-12 sm:w-16 sm:h-16 flex items-center justify-center text-gray-400 bg-gray-100 rounded-lg overflow-hidden relative">
             {currentImages[0] && (
               <Image 
                 src={currentImages[0].url} 
@@ -131,9 +131,9 @@ export const ImageTool: React.FC<ImageToolProps> = ({
               />
             )}
           </div>
-          <div className="ml-4 flex-1">
-            <h3 className="text-lg font-medium text-gray-900 truncate">{currentPrompt}</h3>
-            <p className="text-sm text-gray-500">
+          <div className="ml-3 sm:ml-4 flex-1 min-w-0">
+            <h3 className="text-base sm:text-lg font-medium text-gray-900 truncate">{currentPrompt}</h3>
+            <p className="text-xs sm:text-sm text-gray-500">
               {currentImages.length} image{currentImages.length > 1 ? 's' : ''} generated. Click to view.
             </p>
           </div>

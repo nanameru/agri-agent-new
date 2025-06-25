@@ -289,6 +289,141 @@ body {
   max-width: 200px;
 }
 
+/* Mobile-First Responsive Enhancements */
+@media (max-width: 640px) {
+  /* Increase touch target sizes on mobile */
+  button, .touch-manipulation {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Better mobile scroll behavior */
+  body {
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+  }
+  
+  /* Mobile input improvements */
+  input[type="text"], input[type="email"], textarea {
+    font-size: 16px; /* Prevents zoom on iOS */
+    -webkit-appearance: none;
+  }
+  
+  /* Mobile card adjustments */
+  .agri-card {
+    margin-bottom: 0.75rem;
+    box-shadow: 0 1px 3px rgba(34, 139, 34, 0.08);
+  }
+  
+  /* Mobile button improvements */
+  .agri-button {
+    padding: 0.875rem 1.25rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* Touch interactions */
+.touch-manipulation {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Improved focus states for accessibility */
+button:focus-visible, 
+.touch-manipulation:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* Pull-to-refresh styles */
+.pull-to-refresh {
+  position: relative;
+  overflow: hidden;
+}
+
+.pull-to-refresh::before {
+  content: '';
+  position: absolute;
+  top: -60px;
+  left: 50%;
+  width: 24px;
+  height: 24px;
+  margin-left: -12px;
+  border: 2px solid var(--primary);
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+.pull-to-refresh.pulling::before {
+  top: 20px;
+  opacity: 1;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Swipe gesture indicators */
+.swipe-indicator {
+  position: absolute;
+  top: 50%;
+  width: 3px;
+  height: 20px;
+  background: var(--primary);
+  border-radius: 2px;
+  transform: translateY(-50%);
+  opacity: 0.3;
+  transition: opacity 0.2s ease;
+}
+
+.swipe-indicator.left {
+  left: 4px;
+}
+
+.swipe-indicator.right {
+  right: 4px;
+}
+
+/* Safe area adjustments for mobile devices */
+.safe-areas {
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* Sticky elements mobile optimization */
+@supports (position: sticky) {
+  .sticky-mobile {
+    position: sticky;
+    top: env(safe-area-inset-top);
+    z-index: 10;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .agri-card {
+    border-width: 2px;
+  }
+  
+  .agri-button {
+    border: 2px solid var(--primary);
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

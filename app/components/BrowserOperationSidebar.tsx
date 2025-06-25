@@ -139,11 +139,11 @@ export function BrowserOperationSidebar({
   return (
     <div className="h-full flex flex-col overflow-hidden">
       {/* ヘッダー - URL入力機能付き */}
-      <div className="flex-shrink-0 bg-white border-b border-gray-200 px-3 py-2 space-y-2">
+      <div className="flex-shrink-0 bg-white border-b border-gray-200 px-2 sm:px-3 py-2 space-y-2">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Monitor className="h-4 w-4 text-gray-600" />
-            <span className="text-sm font-medium text-gray-800">ブラウザ自動化</span>
+            <span className="text-xs sm:text-sm font-medium text-gray-800">ブラウザ自動化</span>
             <div className={`w-2 h-2 rounded-full ${
               useManualUrl ? 'bg-green-500' :
               isLoading ? 'bg-yellow-500 animate-pulse' : 
@@ -159,7 +159,7 @@ export function BrowserOperationSidebar({
                 variant={viewMode === 'live' ? 'default' : 'ghost'}
                 size="sm"
                 onClick={() => setViewMode('live')}
-                className="h-6 px-2 text-xs"
+                className="h-8 sm:h-6 px-2 text-xs touch-manipulation"
                 disabled={connectionStatus === 'loading'}
               >
                 <Play className="h-3 w-3" />
@@ -170,7 +170,7 @@ export function BrowserOperationSidebar({
                 variant={viewMode === 'replay' ? 'default' : 'ghost'}
                 size="sm"
                 onClick={() => setViewMode('replay')}
-                className="h-6 px-2 text-xs"
+                className="h-8 sm:h-6 px-2 text-xs touch-manipulation"
               >
                 <Square className="h-3 w-3" />
               </Button>
@@ -219,7 +219,7 @@ export function BrowserOperationSidebar({
                     console.log('[BrowserOperationSidebar] Manual URL set:', manualUrl);
                   }
                 }}
-                className="h-6 px-2 text-xs"
+                className="h-8 sm:h-6 px-2 text-xs touch-manipulation"
                 disabled={!manualUrl}
               >
                 適用

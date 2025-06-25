@@ -127,6 +127,15 @@ import { browserDownloadTool } from './browserDownloadTool';
 import { browserUploadTool } from './browserUploadTool';
 // Visual editing tools
 import { visualSlideEditorTool } from './visualSlideEditorTool';
+// Agricultural data API tools
+import { wagriSearchTool } from './wagriSearchTool';
+import { jmaWeatherTool } from './jmaWeatherTool';
+import { resasAgricultureTool } from './resasAgricultureTool';
+import { weathernewsWxTechTool } from './weathernewsWxTechTool';
+import { kubotaKsasTool } from './kubotaKsasTool';
+import { jwaForecastTool } from './jwaForecastTool';
+import { farmlandPolygonTool } from './farmlandPolygonTool';
+import { gSpaceInfoTool } from './gSpaceInfoTool';
 
 // Define the list of all tools
 export const allTools = [
@@ -156,6 +165,15 @@ export const allTools = [
   browserUploadTool,
   // Visual editing tools
   visualSlideEditorTool,
+  // Agricultural data API tools
+  wagriSearchTool,
+  jmaWeatherTool,
+  resasAgricultureTool,
+  weathernewsWxTechTool,
+  kubotaKsasTool,
+  jwaForecastTool,
+  farmlandPolygonTool,
+  gSpaceInfoTool,
 ];
 
 // Define the list of all tool names, handling both .name and .id properties
@@ -188,4 +206,32 @@ export {
   browserUploadTool,
   // Visual editing tools
   visualSlideEditorTool,
+  // Agricultural data API tools
+  wagriSearchTool,
+  jmaWeatherTool,
+  resasAgricultureTool,
+  weathernewsWxTechTool,
+  kubotaKsasTool,
+  jwaForecastTool,
+  farmlandPolygonTool,
+  gSpaceInfoTool,
 };
+
+export * from './browserSessionTool';
+export * from './browserSharedInstances';
+export * from './browserUploadTool';
+export * from './browserWaitTool';
+export * from './citationExtractionTool';
+export * from './contentSynthesisTool';
+export * from './geminiImageGenerationTool';
+export * from './graphicRecordingTool';
+export * from './grokXSearchTool';
+export * from './htmlSlideTool';
+export * from './imagen4GenerationTool';
+export * from './presentationPreviewTool';
+export * from './sourceValidationTool';
+export * from './visualSlideEditorTool';
+export * from './websiteAnalysisTool';
+export * from './googleSlidesTool';
+export * from './googleSheetsTool';
+export * from './googleDocsTool';

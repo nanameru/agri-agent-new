@@ -63,6 +63,6 @@ export const mastra = new Mastra({
   }),
   server: {
     timeout: 300000,
-    port: 4111,
+    port: 4112,
   },
 });

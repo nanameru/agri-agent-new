@@ -223,7 +223,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar 
       collapsible="icon"
-      className="group-data-[collapsible=icon]:w-16 bg-gradient-to-b from-sidebar to-sidebar/95 border-r-2 border-primary/10 shadow-lg"
+      className="group-data-[collapsible=icon]:w-16 group-data-[collapsible=none]:w-full bg-gradient-to-b from-sidebar to-sidebar/95 border-r-2 border-primary/10 shadow-lg"
       {...props}
     >
       <SidebarHeader className="border-b border-primary/10">
@@ -233,11 +233,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               asChild
               className="group data-[slot=sidebar-menu-button]:!p-3 hover:bg-primary/5 transition-colors duration-200"
             >
-              <Link href="/" className="flex items-center gap-3 p-3 group-data-[collapsible=icon]:justify-center">
+              <Link href="/" className="flex items-center gap-3 p-3 group-data-[collapsible=icon]:justify-center group-data-[collapsible=none]:justify-start">
                 <div className="p-2 bg-gradient-to-br from-primary to-secondary rounded-xl shadow-sm group-hover:shadow-md transition-shadow duration-200">
                   <Wheat size={18} className="text-primary-foreground" />
                 </div>
-                <div className="group-data-[collapsible=icon]:hidden flex flex-col">
+                <div className="group-data-[collapsible=icon]:hidden group-data-[collapsible=none]:flex flex flex-col">
                   <span className="text-sm font-bold text-primary leading-tight">🌾 AGRI</span>
                   <span className="text-xs text-muted-foreground leading-tight">Agent</span>
                 </div>
@@ -249,7 +249,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarContent className="px-2 py-4">
         <NavMain items={data.navMain} />
         
-        <div className="group-data-[collapsible=icon]:hidden">
+        <div className="group-data-[collapsible=icon]:hidden group-data-[collapsible=none]:block">
           <NavDocuments items={data.documents} />
         </div>
         <NavSecondary items={data.navSecondary} className="mt-auto" />

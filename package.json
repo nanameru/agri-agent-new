@@ -52,6 +52,7 @@
     "cmdk": "^1.1.1",
     "form-data": "^4.0.2",
     "google-auth-library": "^9.15.1",
+    "googleapis": "^150.0.1",
     "html2canvas": "^1.4.1",
     "jsdom": "^26.1.0",
     "libsql": "^0.5.12",

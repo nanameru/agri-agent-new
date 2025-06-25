@@ -225,8 +225,8 @@ export const ChatInputArea = ({
   return (
     <div className="bg-background/95 backdrop-blur-md">
       <div className="safe-areas">
-        <form onSubmit={handleFormSubmit} className="max-w-4xl mx-auto p-2 md:p-4">
-          <div className="flex flex-col gap-2 agri-input-container bg-card rounded-2xl md:rounded-3xl border-2 border-border focus-within:border-primary transition-all shadow-sm p-2">
+        <form onSubmit={handleFormSubmit} className="max-w-4xl mx-auto p-2 sm:p-3 md:p-4">
+          <div className="flex flex-col gap-2 agri-input-container bg-card rounded-xl sm:rounded-2xl md:rounded-3xl border-2 border-border focus-within:border-primary transition-all shadow-sm p-2 sm:p-3 md:p-2">
             {/* ツール選択ドロップダウン - 非表示 */}
             {/* <Popover open={open} onOpenChange={setOpen}>
               <PopoverTrigger asChild>
@@ -299,12 +299,12 @@ export const ChatInputArea = ({
                     ? `${toolOptions.find(opt => opt.value === selectedTool)?.label}について質問してください` 
                     : placeholder
               }
-              className="w-full bg-transparent text-foreground placeholder-muted-foreground focus:outline-none text-base resize-none"
+              className="w-full bg-transparent text-foreground placeholder-muted-foreground focus:outline-none text-sm sm:text-base resize-none leading-relaxed"
               disabled={isLoading}
-              maxRows={10}
+              maxRows={8}
               rows={1}
             />
-            <div className="self-end flex items-center gap-1">
+            <div className="self-end flex items-center gap-1 sm:gap-2">
               {/* 音声入力ボタン - 非表示 */}
               {/* {isSupported && (
                 <button
@@ -322,21 +322,21 @@ export const ChatInputArea = ({
                 </button>
               )} */}
               
-              {/* 送信ボタン */}
+              {/* 送信ボタン - モバイル最適化 */}
               <button 
                 type="submit" 
                 disabled={isLoading || !input.trim()} 
-                className="p-3 bg-primary text-primary-foreground rounded-full hover:bg-secondary disabled:bg-muted disabled:cursor-not-allowed transition-all duration-200 hover:shadow-lg hover:scale-105"
+                className="p-3 sm:p-3 md:p-3 bg-primary text-primary-foreground rounded-full hover:bg-secondary disabled:bg-muted disabled:cursor-not-allowed transition-all duration-200 hover:shadow-lg hover:scale-105 min-h-[44px] min-w-[44px] flex items-center justify-center touch-manipulation"
               >
                 <ArrowUp className="h-5 w-5" />
               </button>
             </div>
           </div>
           
-          {/* 音声認識状態表示 */}
+          {/* 音声認識状態表示 - レスポンシブ */}
           {isListening && (
             <div className="mt-2 text-center">
-              <span className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-red-50 text-red-700">
+              <span className="inline-flex items-center px-3 py-1 rounded-full text-xs sm:text-sm bg-red-50 text-red-700">
                 <div className="w-2 h-2 bg-red-500 rounded-full mr-2 animate-pulse"></div>
                 音声を聞いています...
               </span>

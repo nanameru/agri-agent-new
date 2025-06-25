@@ -12,7 +12,20 @@ import {
   grokXSearchTool,
   imagen4GenerationTool,
   graphicRecordingTool,
-  visualSlideEditorTool
+  visualSlideEditorTool,
+  // Google Service Tools
+  createGoogleSlidesTool,
+  createGoogleSheetsTool,
+  createGoogleDocsTool,
+  // Agricultural data API tools
+  wagriSearchTool,
+  jmaWeatherTool,
+  resasAgricultureTool,
+  weathernewsWxTechTool,
+  kubotaKsasTool,
+  jwaForecastTool,
+  farmlandPolygonTool,
+  gSpaceInfoTool
 } from '../tools'; // Import all tools
 import { browserSessionTool } from '../tools/browserSessionTool';
 import { browserGotoTool } from '../tools/browserGotoTool';
@@ -85,12 +98,15 @@ export function createSlideCreatorAgent(provider: string = 'claude', modelName: 
 ### ① 農業データリサーチクラスター
 **補助金ウォッチャー機能**：全国の補助金・助成金情報を常時監視し、利用可能な制度を自動推薦
 - \`braveSearchTool\`・\`grokXSearchTool\`・\`eStatSearchTool\`・\`browser*Tool\`群を使用
+- \`wagriSearchTool\`（WAGRI農業データ連携基盤）・\`resasAgricultureTool\`（RESAS地域経済分析）でデータ統合
 - J-Grants、農林水産省、自治体サイト、e-Stat政府統計から最新情報を自動収集
 - 適合度判定と申請締切日の自動通知
 - **効果例**: 「スマート農業導入支援事業」適合度95% (IoTセンサー導入費用の最大1/2を補助)
 
 ### ② 生産管理・計画クラスター
 **作付プランナー & 水肥最適化ボット機能**：データ分析による最適な農業計画
+- \`jmaWeatherTool\`（気象庁データ）・\`weathernewsWxTechTool\`（1kmメッシュ高精度気象）・\`jwaForecastTool\`（8週間長期予報）を統合
+- \`farmlandPolygonTool\`（筆ポリゴン）・\`gSpaceInfoTool\`（地理空間情報）で土壌・地形分析
 - 土壌データ、気象予測、市場価格を総合分析
 - 最適な作付計画と輪作体系の立案
 - センサーデータと生育画像から水・肥料の最適タイミングを算出
@@ -104,6 +120,7 @@ export function createSlideCreatorAgent(provider: string = 'claude', modelName: 
 
 ### ④ 日報・ナレッジクラスター
 **日報パーサー & 労務シフトオーガナイザー機能**：業務効率化の自動化
+- \`kubotaKsasTool\`（KSAS圃場管理）で作業履歴・農機稼働データを統合
 - 音声・手書きメモを構造化データに自動変換
 - 作業計画に基づく最適な人員配置を自動作成
 - **効果**: 日報入力・集計を年間110時間自動化
@@ -124,34 +141,53 @@ export function createSlideCreatorAgent(provider: string = 'claude', modelName: 
 ## 利用可能なツール詳細 (Available Tools)
 あなたは以下の専門ツールにアクセスできます。
 
+### 🎯 プレゼンテーション・コンテンツ生成ツール
 - \`htmlSlideTool\`: トピック、アウトライン、スライド数に基づいてHTMLスライドを生成します。
 - \`presentationPreviewTool\`: HTMLコンテンツのプレビューを表示します。
-- \`braveSearchTool\`: Webで情報を検索します。
-- \`eStatSearchTool\`: e-Stat（政府統計ポータルサイト）から農林業センサス、作物統計、農業産出額等の統計データを市町村レベルで検索します。
-- \`grokXSearchTool\`: GrokのX.ai APIを使用して、ライブデータで情報を検索します。
-- \`github-list-issues\`: GitHubリポジトリから課題をリストアップします。
 - \`geminiImageGenerationTool\`: テキストプロンプトに基づいて画像を生成します。
-- \`geminiVideoGenerationTool\`: テキストプロンプトや画像に基づいて動画を生成します。
 - \`imagen4GenerationTool\`: GoogleのImagen 4モデルを使用して、高詳細の高品質画像を生成します。
-- \`v0CodeGenerationTool\`: v0のAIモデルを使用してWebアプリケーションのコードを生成します。
 - \`graphicRecordingTool\`: 視覚要素を含むタイムラインベースのグラフィックレコーディング（グラレコ）を作成します。
-- \`minimaxTTSTool\`: MiniMax T2A Large v2 APIを使用して、100以上の音声オプション、感情制御、詳細なパラメータ調整が可能な高品質の音声を生成します。
-- ブラウザ自動化ツール（アトミック操作）：
-  - \`browserSessionTool\`: ライブビューURL付きの新しいブラウザセッションを作成します（メタデータ、ビューポートプリセットをサポート）。
-  - \`browserGotoTool\`: 特定のURLに移動します。
-  - \`browserActTool\`: 自然言語の指示を使用してアクションを実行します。
-  - \`browserExtractTool\`: 現在のページからデータを抽出します。
-  - \`browserObserveTool\`: 要素を観察し、可能なアクションを提案します。
-  - \`browserWaitTool\`: 指定された時間待機します。
-  - \`browserScreenshotTool\`: 高品質のスクリーンショットを撮影します（PNG/JPEG/WebP、CDPサポート）。
-  - \`browserCloseTool\`: ブラウザセッションを閉じます。
-  - \`browserCaptchaDetectTool\`: CAPTCHAを検出し、解決を待ちます。
-- 拡張ブラウザツール（高度な操作）：
-  - \`browserContextCreateTool\`: Cookie/認証データ用の永続的なコンテキストを作成します。
-  - \`browserContextUseTool\`: 既存のコンテキストを使用してセッションを作成し、状態を維持します。
-  - \`browserSessionQueryTool\`: メタデータでセッションをクエリおよび検索します。
-  - \`browserDownloadTool\`: Browserbase APIを介してダウンロードをトリガーし、ファイルを取得します。
-  - \`browserUploadTool\`: 直接またはAPIメソッドを使用してファイルをアップロードします。
+- \`visualSlideEditorTool\`: ドラッグ&ドロップによる視覚的スライド編集機能
+- \`createGoogleSlidesTool\`: Googleスライドのプレゼンテーションを新規作成します。
+- \`createGoogleSheetsTool\`: Googleスプレッドシートを新規作成します。
+- \`createGoogleDocsTool\`: Googleドキュメントを新規作成します。
+
+### 🔍 検索・情報収集ツール
+- \`braveSearchTool\`: Webで情報を検索します。
+- \`grokXSearchTool\`: GrokのX.ai APIを使用して、ライブデータで情報を検索します。
+
+### 📊 政府系農業データAPIツール
+- \`eStatSearchTool\`: e-Stat（政府統計ポータルサイト）から農林業センサス、作物統計、農業産出額等の統計データを市町村レベルで検索します。
+- \`wagriSearchTool\`: WAGRI（農業データ連携基盤）から筆ポリゴン、農業気象、土壌図データを取得します。
+- \`jmaWeatherTool\`: 気象庁の非公式APIから天気予報とAMeDAS観測データを取得します。
+- \`resasAgricultureTool\`: RESAS（地域経済分析システム）から市町村別の農業産出額、就業人口データを取得します。
+
+### 🏢 民間企業農業データAPIツール
+- \`weathernewsWxTechTool\`: ウェザーニューズWxTech APIから1kmメッシュの高精度気象データを取得します。
+- \`kubotaKsasTool\`: クボタKSAS APIから圃場管理、作業履歴、収穫実績データを取得します。
+- \`jwaForecastTool\`: 日本気象協会Weather X APIから高精度気象予報と商品需要予測データを取得します。
+
+### 🗺️ オープンデータ・地理空間情報ツール
+- \`farmlandPolygonTool\`: 農林水産省の筆ポリゴンデータから全国約290万区画の農地情報をGeoJSON形式で取得します。
+- \`gSpaceInfoTool\`: G空間情報センターから地理空間情報と農業関連データセットを検索・取得します。
+
+### 🤖 ブラウザ自動化ツール（アトミック操作）
+- \`browserSessionTool\`: ライブビューURL付きの新しいブラウザセッションを作成します（メタデータ、ビューポートプリセットをサポート）。
+- \`browserGotoTool\`: 特定のURLに移動します。
+- \`browserActTool\`: 自然言語の指示を使用してアクションを実行します。
+- \`browserExtractTool\`: 現在のページからデータを抽出します。
+- \`browserObserveTool\`: 要素を観察し、可能なアクションを提案します。
+- \`browserWaitTool\`: 指定された時間待機します。
+- \`browserScreenshotTool\`: 高品質のスクリーンショットを撮影します（PNG/JPEG/WebP、CDPサポート）。
+- \`browserCloseTool\`: ブラウザセッションを閉じます。
+- \`browserCaptchaDetectTool\`: CAPTCHAを検出し、解決を待ちます。
+
+### 🔧 拡張ブラウザツール（高度な操作）
+- \`browserContextCreateTool\`: Cookie/認証データ用の永続的なコンテキストを作成します。
+- \`browserContextUseTool\`: 既存のコンテキストを使用してセッションを作成し、状態を維持します。
+- \`browserSessionQueryTool\`: メタデータでセッションをクエリおよび検索します。
+- \`browserDownloadTool\`: Browserbase APIを介してダウンロードをトリガーし、ファイルを取得します。
+- \`browserUploadTool\`: 直接またはAPIメソッドを使用してファイルをアップロードします。
 
 ## 全体的なツール使用ガイドライン
 1. **並列実行の優先**: 複数の独立したツール呼び出しが可能な場合、常に単一の応答に複数のツール呼び出しを含めることで、並列実行してください。これにより、パフォーマンスとユーザーエクスペリエンスが大幅に向上します。
@@ -196,6 +232,11 @@ export function createSlideCreatorAgent(provider: string = 'claude', modelName: 
       geminiImageGenerationTool, // Register the image generation tool
       imagen4GenerationTool, // Register the Imagen 4 generation tool
       graphicRecordingTool, // Register the graphic recording tool
+      visualSlideEditorTool, // Visual slide editor with drag-and-drop
+      // Google Service Tools
+      createGoogleSlidesTool,
+      createGoogleSheetsTool,
+      createGoogleDocsTool,
       // Browser automation tools (atomic operations)
       browserSessionTool, // Create browser session with metadata/viewport support
       browserGotoTool, // Navigate to URL
@@ -212,8 +253,15 @@ export function createSlideCreatorAgent(provider: string = 'claude', modelName: 
       browserSessionQueryTool, // Query sessions by metadata
       browserDownloadTool, // Download files via Browserbase API
       browserUploadTool, // Upload files (direct/API methods)
-      // Visual editing tools
-      visualSlideEditorTool, // Visual slide editor with drag-and-drop
+      // Agricultural data API tools
+      wagriSearchTool, // WAGRI agricultural data platform
+      jmaWeatherTool, // Japan Meteorological Agency unofficial API
+      resasAgricultureTool, // RESAS regional economic analysis system
+      weathernewsWxTechTool, // Weathernews WxTech high-precision weather data
+      kubotaKsasTool, // Kubota KSAS farm management system
+      jwaForecastTool, // Japan Weather Association forecast API
+      farmlandPolygonTool, // MAFF farmland polygon data
+      gSpaceInfoTool, // G-Spatial Information Center
     },
     memory: new Memory({ // Add memory configuration
       options: {

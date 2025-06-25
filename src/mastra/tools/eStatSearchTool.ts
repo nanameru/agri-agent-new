@@ -102,8 +102,8 @@ export const eStatSearchTool = createTool({
       );
     }
 
-    // e-Stat API エンドポイント (データセット検索API)
-    const endpoint = 'https://api.e-stat.go.jp/rest/3.0/app/json/getDatasetList';
+    // e-Stat API エンドポイント (データセット検索API) -> (統計表情報取得API)
+    const endpoint = 'https://api.e-stat.go.jp/rest/3.0/app/json/getStatsList';
     
     // クエリパラメータの構築
     const params = new URLSearchParams({
