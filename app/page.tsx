@@ -96,6 +96,17 @@ export default function AppPage() {
   // Deep Researchモードの状態
   const [isDeepResearchMode, setIsDeepResearchMode] = useState<boolean>(false);
   const isMobile = useIsMobile()
+  // より小さい画面でのみフルスクリーンオーバーレイを使用
+  const [windowWidth, setWindowWidth] = useState(0)
+  
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth)
+    handleResize()
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+  
+  const isVerySmallScreen = windowWidth < 640 // sm breakpoint
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   
   // Deep Researchフック
@@ -613,9 +624,9 @@ export default function AppPage() {
       )}
       <SidebarInset className={`flex flex-col h-full ${!isMobile ? 'md:ml-14' : ''}`}>
         <MainHeader onMenuClick={() => setIsMobileMenuOpen(true)} />
-        <div className="flex-1 flex flex-col overflow-hidden">
+        <div className="flex-1 flex flex-row overflow-hidden">
           {/* チャットエリア - レスポンシブレイアウト */}
-          <main className={`${showBrowserPanel && !isMobile ? 'w-full lg:w-1/2 border-r' : 'w-full'} flex flex-col overflow-hidden bg-background border-border transition-all duration-300`}>
+          <main className={`${showBrowserPanel && !isMobile ? 'flex-1 border-r' : 'w-full'} flex flex-col overflow-hidden bg-background border-border transition-all duration-300`}>
             <div className="w-full flex-1 flex flex-col px-6 py-6 overflow-y-auto">
               {/* スライドツールがアクティブな場合に表示 */}
               {slideToolState.isActive && (
@@ -735,14 +746,14 @@ export default function AppPage() {
             </div>
           </main>
 
-          {/* ブラウザ操作サイドバー - レスポンシブ */}
+          {/* ブラウザ操作サイドバー - 右サイドバー */}
           {showBrowserPanel && (
-            <div className={`${isMobile ? 'fixed inset-0 z-50 bg-white' : 'w-full lg:w-1/2 bg-gray-50 border-l border-gray-200'} relative h-full overflow-hidden transition-all duration-300`}>
+            <div className={`${isVerySmallScreen ? 'fixed inset-0 z-50 bg-white' : 'w-1/2 bg-gray-50 border-l border-gray-200'} relative h-full overflow-hidden transition-all duration-300`}>
               
               {/* 非表示ボタン - モバイル強化 */}
               <button
                 onClick={() => setShowBrowserPanel(false)}
-                className={`absolute top-2 right-2 z-10 p-2 ${isMobile ? 'p-3' : 'p-2'} bg-white rounded-lg shadow-md hover:bg-gray-100 transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center`}
+                className={`absolute top-2 right-2 z-10 p-2 ${isVerySmallScreen ? 'p-3' : 'p-2'} bg-white rounded-lg shadow-md hover:bg-gray-100 transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center`}
                 title="ブラウザ自動化パネルを非表示"
               >
                 <svg className="h-4 w-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
