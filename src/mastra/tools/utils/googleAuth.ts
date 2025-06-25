@@ -63,4 +63,20 @@ export async function getSheetsClient() {
 export async function getDocsClient() {
   await initializeAuth();
   return google.docs({ version: 'v1' });
+}
+
+/**
+ * Google Drive APIのクライアントを取得します。
+ */
+export async function getDriveClient() {
+  await initializeAuth();
+  return google.drive({ version: 'v3' });
+}
+
+/**
+ * 認証を初期化します（後方互換性のため）
+ */
+export async function getGoogleAuth() {
+  await initializeAuth();
+  return google;
 } 

@@ -13,6 +13,7 @@ import { Badge } from '@/components/ui/badge';
 import { ExternalLink } from 'lucide-react';
 import { ActivityTimeline, ProcessedEvent } from './ActivityTimeline';
 import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 // 拡張メッセージパートの型
 type MessageContentPart = {
@@ -2134,6 +2135,7 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
                 <div className="w-full max-w-3xl px-4 py-3 rounded-2xl bg-gray-100 text-gray-800">
                   <div className="prose prose-gray max-w-none text-base leading-relaxed">
                     <ReactMarkdown 
+                      remarkPlugins={[remarkGfm]}
                       components={{
                         p: ({children}) => <p className="mb-2 last:mb-0 bg-transparent">{children}</p>,
                         strong: ({children}) => <strong className="font-bold">{children}</strong>,
@@ -2177,19 +2179,31 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
                         a: ({href, children}) => {
                           if (href?.startsWith('http')) {
                             return (
-                              <Badge
-                                variant="secondary"
-                                className="bg-gray-200 text-gray-700 hover:bg-gray-300 cursor-pointer no-underline inline-flex items-center gap-1 mx-1"
-                                asChild
+                              <a 
+                                href={href} 
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-1 bg-blue-100 text-blue-700 hover:bg-blue-200 hover:text-blue-800 px-2 py-1 rounded-md text-sm font-medium no-underline transition-colors cursor-pointer touch-manipulation"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                }}
                               >
-                                <a href={href} target="_blank" rel="noopener noreferrer">
-                                  {children}
-                                  <ExternalLink className="h-3 w-3 ml-1" />
-                                </a>
-                              </Badge>
+                                {children}
+                                <ExternalLink className="h-3 w-3" />
+                              </a>
                             );
                           }
-                          return <a href={href} className="text-blue-600 hover:underline">{children}</a>;
+                          return (
+                            <a 
+                              href={href} 
+                              className="text-blue-600 hover:text-blue-800 hover:underline cursor-pointer"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                              }}
+                            >
+                              {children}
+                            </a>
+                          );
                         },
                         blockquote: ({children}) => (
                           <blockquote className="border-l-4 border-gray-300 pl-4 italic my-2">
@@ -2392,6 +2406,7 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
               <div className="w-full max-w-3xl px-4 py-3 rounded-2xl bg-gray-100 text-gray-800">
                 <div className="prose prose-gray max-w-none text-base leading-relaxed">
                   <ReactMarkdown 
+                    remarkPlugins={[remarkGfm]}
                     components={{
                       p: ({children}) => <p className="mb-2 last:mb-0 bg-transparent">{children}</p>,
                       strong: ({children}) => <strong className="font-bold">{children}</strong>,
@@ -2435,19 +2450,31 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
                       a: ({href, children}) => {
                         if (href?.startsWith('http')) {
                           return (
-                            <Badge
-                              variant="secondary"
-                              className="bg-gray-200 text-gray-700 hover:bg-gray-300 cursor-pointer no-underline inline-flex items-center gap-1 mx-1"
-                              asChild
+                            <a 
+                              href={href} 
+                              target="_blank" 
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-1 bg-blue-100 text-blue-700 hover:bg-blue-200 hover:text-blue-800 px-2 py-1 rounded-md text-sm font-medium no-underline transition-colors cursor-pointer touch-manipulation"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                              }}
                             >
-                              <a href={href} target="_blank" rel="noopener noreferrer">
-                                {children}
-                                <ExternalLink className="h-3 w-3 ml-1" />
-                              </a>
-                            </Badge>
+                              {children}
+                              <ExternalLink className="h-3 w-3" />
+                            </a>
                           );
                         }
-                        return <a href={href} className="text-blue-600 hover:underline">{children}</a>;
+                        return (
+                          <a 
+                            href={href} 
+                            className="text-blue-600 hover:text-blue-800 hover:underline cursor-pointer"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                            }}
+                          >
+                            {children}
+                          </a>
+                        );
                       },
                       blockquote: ({children}) => (
                         <blockquote className="border-l-4 border-gray-300 pl-4 italic my-2">

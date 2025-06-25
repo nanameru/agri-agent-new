@@ -1,13 +1,4 @@
-import { google } from 'googleapis';
-import { getGoogleAuth } from './googleAuth';
-
-/**
- * Google Drive APIのクライアントを取得します。
- */
-async function getDriveClient() {
-    // 認証はgetGoogleAuth内で行われるinitializeAuthに依存
-    return google.drive({ version: 'v3' });
-}
+import { getDriveClient } from './googleAuth';
 
 /**
  * 指定されたファイルIDを持つファイルを、指定されたメールアドレスと共有します。

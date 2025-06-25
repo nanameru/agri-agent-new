@@ -51,6 +51,7 @@
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
     "form-data": "^4.0.2",
+    "framer-motion": "^12.19.1",
     "google-auth-library": "^9.15.1",
     "googleapis": "^150.0.1",
     "html2canvas": "^1.4.1",
@@ -70,6 +71,7 @@
     "react-markdown": "^10.1.0",
     "react-textarea-autosize": "^8.5.9",
     "react-tweet": "^3.2.2",
+    "remark-gfm": "^4.0.1",
     "tailwind-merge": "^3.3.0",
     "uuid": "^11.1.0"
   },
