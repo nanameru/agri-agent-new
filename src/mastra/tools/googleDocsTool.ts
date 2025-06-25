@@ -16,6 +16,10 @@ export const createGoogleDocsTool = createTool({
       .string()
       .min(1)
       .describe('The title of the new document.'),
+    content: z
+      .string()
+      .optional()
+      .describe('The initial content of the document. Use newline characters (\\n) for line breaks.'),
     shareWithEmail: z
       .string()
       .email()
@@ -27,7 +31,7 @@ export const createGoogleDocsTool = createTool({
     documentUrl: z.string().url().describe("The URL of the created document."),
   }),
   execute: async ({ context }) => {
-    const { title, shareWithEmail } = context;
+    const { title, content, shareWithEmail } = context;
     const docs = await getDocsClient();
 
     try {
@@ -40,6 +44,24 @@ export const createGoogleDocsTool = createTool({
       const documentId = document.data.documentId;
       if (!documentId) {
         throw new Error('Failed to create document, no ID returned.');
+      }
+
+      if (content) {
+        await docs.documents.batchUpdate({
+          documentId,
+          requestBody: {
+            requests: [
+              {
+                insertText: {
+                  location: {
+                    index: 1,
+                  },
+                  text: content,
+                },
+              },
+            ],
+          },
+        });
       }
 
       if (shareWithEmail) {

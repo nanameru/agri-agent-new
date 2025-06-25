@@ -18,7 +18,6 @@ import {
   createGoogleSheetsTool,
   createGoogleDocsTool,
   // Agricultural data API tools
-  wagriSearchTool,
   jmaWeatherTool,
   resasAgricultureTool,
   weathernewsWxTechTool,
@@ -98,7 +97,7 @@ export function createSlideCreatorAgent(provider: string = 'claude', modelName: 
 ### ① 農業データリサーチクラスター
 **補助金ウォッチャー機能**：全国の補助金・助成金情報を常時監視し、利用可能な制度を自動推薦
 - \`braveSearchTool\`・\`grokXSearchTool\`・\`eStatSearchTool\`・\`browser*Tool\`群を使用
-- \`wagriSearchTool\`（WAGRI農業データ連携基盤）・\`resasAgricultureTool\`（RESAS地域経済分析）でデータ統合
+- \`resasAgricultureTool\`（RESAS地域経済分析）でデータ統合
 - J-Grants、農林水産省、自治体サイト、e-Stat政府統計から最新情報を自動収集
 - 適合度判定と申請締切日の自動通知
 - **効果例**: 「スマート農業導入支援事業」適合度95% (IoTセンサー導入費用の最大1/2を補助)
@@ -148,9 +147,9 @@ export function createSlideCreatorAgent(provider: string = 'claude', modelName: 
 - \`imagen4GenerationTool\`: GoogleのImagen 4モデルを使用して、高詳細の高品質画像を生成します。
 - \`graphicRecordingTool\`: 視覚要素を含むタイムラインベースのグラフィックレコーディング（グラレコ）を作成します。
 - \`visualSlideEditorTool\`: ドラッグ&ドロップによる視覚的スライド編集機能
-- \`createGoogleSlidesTool\`: Googleスライドのプレゼンテーションを新規作成します。
-- \`createGoogleSheetsTool\`: Googleスプレッドシートを新規作成します。
-- \`createGoogleDocsTool\`: Googleドキュメントを新規作成します。
+- \`createGoogleSlidesTool\`: Googleスライドのプレゼンテーションを新規作成します。**ユーザーから共有の指示があった場合は、必ず\`shareWithEmail\`パラメータに共有先のメールアドレスを指定してください。**
+- \`createGoogleSheetsTool\`: Googleスプレッドシートを新規作成します。**ユーザーから共有の指示があった場合は、必ず\`shareWithEmail\`パラメータに共有先のメールアドレスを指定してください。**
+- \`createGoogleDocsTool\`: タイトルと本文(\`content\`)を指定してGoogleドキュメントを新規作成します。**ユーザーから共有の指示があった場合は、必ず\`shareWithEmail\`パラメータに共有先のメールアドレスを指定してください。**
 
 ### 🔍 検索・情報収集ツール
 - \`braveSearchTool\`: Webで情報を検索します。
@@ -158,7 +157,6 @@ export function createSlideCreatorAgent(provider: string = 'claude', modelName: 
 
 ### 📊 政府系農業データAPIツール
 - \`eStatSearchTool\`: e-Stat（政府統計ポータルサイト）から農林業センサス、作物統計、農業産出額等の統計データを市町村レベルで検索します。
-- \`wagriSearchTool\`: WAGRI（農業データ連携基盤）から筆ポリゴン、農業気象、土壌図データを取得します。
 - \`jmaWeatherTool\`: 気象庁の非公式APIから天気予報とAMeDAS観測データを取得します。
 - \`resasAgricultureTool\`: RESAS（地域経済分析システム）から市町村別の農業産出額、就業人口データを取得します。
 
@@ -254,7 +252,6 @@ export function createSlideCreatorAgent(provider: string = 'claude', modelName: 
       browserDownloadTool, // Download files via Browserbase API
       browserUploadTool, // Upload files (direct/API methods)
       // Agricultural data API tools
-      wagriSearchTool, // WAGRI agricultural data platform
       jmaWeatherTool, // Japan Meteorological Agency unofficial API
       resasAgricultureTool, // RESAS regional economic analysis system
       weathernewsWxTechTool, // Weathernews WxTech high-precision weather data

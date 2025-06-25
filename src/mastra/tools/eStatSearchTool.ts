@@ -11,17 +11,75 @@ interface EStatSearchResult {
   url?: string;
 }
 
+// e-Stat APIのレスポンス型（簡易版とフル版の両方に対応）
 interface EStatApiResponse {
+  // 簡易版のレスポンス（APIバージョンや設定によって返される）
   result?: {
+    status?: string;
+    errorMsg?: string;
     dataList?: Array<{
-      '@id': string;
-      '@title': string;
-      '@description'?: string;
-      '@category'?: string;
-      '@region'?: string;
-      '@year'?: string;
-      '@url'?: string;
+      id?: string;
+      title?: string;
+      description?: string;
+      category?: string;
+      region?: string;
+      year?: string;
+      url?: string;
+      // その他のフィールド
+      [key: string]: any;
     }>;
+  };
+  // フル版のレスポンス
+  GET_STATS_LIST?: {
+    RESULT?: {
+      STATUS?: string;
+      ERROR_MSG?: string;
+      DATE?: string;
+    };
+    PARAMETER?: {
+      LANG?: string;
+      STATS_DATA_ID?: string;
+      DATA_FORMAT?: string;
+      LIMIT?: string;
+      METAGET_FLG?: string;
+    };
+    DATALIST_INF?: {
+      NUMBER?: string;
+      LIST_INF?: Array<{
+        STAT_NAME?: {
+          '@code': string;
+          '$': string;
+        };
+        GOV_ORG?: {
+          '@code': string;
+          '$': string;
+        };
+        STATISTICS_NAME?: string;
+        TITLE?: string;
+        CYCLE?: string;
+        SURVEY_DATE?: string;
+        OPEN_DATE?: string;
+        SMALL_AREA?: string;
+        MAIN_CATEGORY?: {
+          '@code': string;
+          '$': string;
+        };
+        SUB_CATEGORY?: {
+          '@code': string;
+          '$': string;
+        };
+        OVERALL_TOTAL_NUMBER?: string;
+        UPDATED_DATE?: string;
+        STATISTICS_URL?: string;
+        TABLE_URL?: string;
+        DESCRIPTION?: string;
+        TABULATION_SUB_CATEGORY1?: {
+          '@code': string;
+          '$': string;
+        };
+        [key: string]: any; // その他のフィールドに対応
+      }>;
+    };
   };
 }
 
@@ -115,21 +173,27 @@ export const eStatSearchTool = createTool({
 
     // オプションパラメータの追加
     if (region) {
-      params.append('areaLvl', region);
+      params.append('searchKind', '2'); // 地域検索を有効化
+      params.append('statsCode', region);
     }
     
     if (statsField) {
       params.append('statsField', statsField);
+    } else {
+      // デフォルトで農林水産業の統計を検索
+      params.append('statsField', '04');
     }
     
     // 期間フィルタ
-    if (fromYear) {
-      params.append('openYears', String(fromYear));
-    }
-    
-    if (toYear && fromYear) {
-      // 期間指定の場合
-      params.set('openYears', `${fromYear}-${toYear}`);
+    if (fromYear && toYear) {
+      // 期間指定の場合 (YYYY-YYYY形式)
+      params.append('searchKind', '1'); // 調査年月検索
+      params.append('fromDate', `${fromYear}01`);
+      params.append('toDate', `${toYear}12`);
+    } else if (fromYear) {
+      params.append('searchKind', '1');
+      params.append('fromDate', `${fromYear}01`);
+      params.append('toDate', `${fromYear}12`);
     }
 
     // レート制限対策: リトライロジックを追加
@@ -161,23 +225,93 @@ export const eStatSearchTool = createTool({
           throw new Error(`e-Stat API error: ${resp.status} ${resp.statusText}`);
         }
 
-        const json = (await resp.json()) as EStatApiResponse;
+        const responseText = await resp.text();
+        console.log('e-Stat API Raw Response:', responseText);
+        
+        let json: EStatApiResponse;
+        try {
+          json = JSON.parse(responseText);
+        } catch (parseError) {
+          console.error('Failed to parse JSON:', parseError);
+          throw new Error('Invalid JSON response from e-Stat API');
+        }
+        
+        // デバッグ: APIレスポンスの構造を確認
+        console.log('e-Stat API Parsed Response:', JSON.stringify(json, null, 2));
 
-        // APIレスポンスの処理
-        const dataList = json.result?.dataList ?? [];
-        const simplified: EStatSearchResult[] = dataList.slice(0, limit).map((item) => ({
-          id: item['@id'],
-          title: item['@title'],
-          description: item['@description'],
-          category: item['@category'] || '農林水産業',
-          region: item['@region'],
-          year: item['@year'],
-          url: item['@url'],
-        }));
+        let dataList: any[] = [];
+        let totalCount = 0;
+        
+        // フル版のレスポンスをチェック
+        if (json.GET_STATS_LIST) {
+          // エラーチェック
+          if (json.GET_STATS_LIST.RESULT?.STATUS !== '0' && json.GET_STATS_LIST.RESULT?.STATUS !== undefined) {
+            const errorMsg = json.GET_STATS_LIST.RESULT?.ERROR_MSG || 'Unknown error';
+            throw new Error(`e-Stat API returned error: ${errorMsg}`);
+          }
+          
+          dataList = json.GET_STATS_LIST.DATALIST_INF?.LIST_INF ?? [];
+          totalCount = parseInt(json.GET_STATS_LIST.DATALIST_INF?.NUMBER || '0', 10);
+        }
+        // 簡易版のレスポンスをチェック
+        else if (json.result) {
+          if (json.result.status && json.result.status !== 'success' && json.result.status !== '0') {
+            const errorMsg = json.result.errorMsg || 'Unknown error';
+            throw new Error(`e-Stat API returned error: ${errorMsg}`);
+          }
+          
+          dataList = json.result.dataList ?? [];
+          totalCount = dataList.length;
+        }
+        
+        console.log('DataList length:', dataList.length);
+        
+        // データがない場合
+        if (dataList.length === 0) {
+          console.log('No data found for query:', query);
+          return {
+            results: [],
+            totalCount: 0,
+            searchInfo: {
+              query,
+              region,
+              statsField,
+              fromYear,
+              toYear,
+            },
+          };
+        }
+        
+        const simplified: EStatSearchResult[] = dataList.slice(0, limit).map((item, index) => {
+          // フル版のレスポンス形式
+          if (item.TITLE !== undefined || item.STATISTICS_NAME !== undefined) {
+            return {
+              id: `estat_${index}_${Date.now()}`,
+              title: item.TITLE || item.STATISTICS_NAME || 'No title',
+              description: item.DESCRIPTION || `${item.SURVEY_DATE || ''} ${item.CYCLE || ''}`.trim(),
+              category: item.MAIN_CATEGORY?.$  || '農林水産業',
+              region: item.SMALL_AREA || undefined,
+              year: item.SURVEY_DATE?.substring(0, 4),
+              url: item.STATISTICS_URL || item.TABLE_URL,
+            };
+          }
+          // 簡易版のレスポンス形式
+          else {
+            return {
+              id: item.id || `estat_${index}_${Date.now()}`,
+              title: item.title || 'No title',
+              description: item.description || '',
+              category: item.category || '農林水産業',
+              region: item.region || undefined,
+              year: item.year || undefined,
+              url: item.url || undefined,
+            };
+          }
+        });
 
         return {
           results: simplified,
-          totalCount: dataList.length,
+          totalCount: totalCount,
           searchInfo: {
             query,
             region,

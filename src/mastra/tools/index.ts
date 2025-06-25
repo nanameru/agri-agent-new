@@ -128,7 +128,6 @@ import { browserUploadTool } from './browserUploadTool';
 // Visual editing tools
 import { visualSlideEditorTool } from './visualSlideEditorTool';
 // Agricultural data API tools
-import { wagriSearchTool } from './wagriSearchTool';
 import { jmaWeatherTool } from './jmaWeatherTool';
 import { resasAgricultureTool } from './resasAgricultureTool';
 import { weathernewsWxTechTool } from './weathernewsWxTechTool';
@@ -166,7 +165,6 @@ export const allTools = [
   // Visual editing tools
   visualSlideEditorTool,
   // Agricultural data API tools
-  wagriSearchTool,
   jmaWeatherTool,
   resasAgricultureTool,
   weathernewsWxTechTool,
@@ -207,7 +205,6 @@ export {
   // Visual editing tools
   visualSlideEditorTool,
   // Agricultural data API tools
-  wagriSearchTool,
   jmaWeatherTool,
   resasAgricultureTool,
   weathernewsWxTechTool,
